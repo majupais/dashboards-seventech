@@ -65,8 +65,7 @@
   .sidebar-period { font-size: 11px; color: var(--hint); text-align: center; line-height: 1.8; }
   .status-dot {
     width: 7px; height: 7px; border-radius: 50%;
-    background: #4caf7d;
-    display: inline-block; margin-right: 5px;
+    background: #4caf7d; display: inline-block; margin-right: 5px;
     box-shadow: 0 0 6px rgba(76,175,125,0.6);
   }
   .main {
@@ -305,20 +304,27 @@
   async function fetchDados() {
     const label = document.getElementById('period-label');
     try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=A1:C7`;
+      // Busca sem cabeçalho usando query SQL — lê valores diretos das células
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=A2:C7&headers=0`;
       const res  = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
       const rows = json.table.rows;
 
-      // A3=CSAT, A4=%Aval (Google retorna 0.58 para 58%), A5=Monitoria, C6=FRT, C7=ART
-      const csat = parseFloat(String(rows[2]?.c[0]?.v ?? 0).replace(',', '.'));
-      // % avaliações: Google Sheets armazena percentual como decimal (58% = 0.58)
-      const avalRaw = rows[3]?.c[0]?.v ?? 0;
-      const aval = typeof avalRaw === 'number' && avalRaw < 1 ? avalRaw * 100 : parseFloat(String(avalRaw).replace('%','').replace(',','.'));
-      const mon  = parseFloat(String(rows[4]?.c[0]?.v ?? 0).replace(',', '.'));
-      const frt  = parseFloat(String(rows[5]?.c[2]?.v ?? 0).replace(',', '.'));
-      const art  = parseFloat(String(rows[6]?.c[2]?.v ?? 0).replace(',', '.'));
+      // Com headers=0 e range A2:C7, os índices são:
+      // rows[0] = linha 2 (Pontos Comerciais) — ignorar
+      // rows[1] = linha 3 (CSAT)         → c[0]
+      // rows[2] = linha 4 (% Avaliações)  → c[0]
+      // rows[3] = linha 5 (Monitoria)     → c[0]
+      // rows[4] = linha 6 (FRT)           → c[2]
+      // rows[5] = linha 7 (ART)           → c[2]
+
+      const csat    = parseFloat(String(rows[1]?.c[0]?.v ?? 0).replace(',', '.'));
+      const avalRaw = rows[2]?.c[0]?.v ?? 0;
+      const aval    = typeof avalRaw === 'number' && avalRaw <= 1 ? avalRaw * 100 : parseFloat(String(avalRaw).replace('%','').replace(',','.'));
+      const mon     = parseFloat(String(rows[3]?.c[0]?.v ?? 0).replace(',', '.'));
+      const frt     = parseFloat(String(rows[4]?.c[2]?.v ?? 0).replace(',', '.'));
+      const art     = parseFloat(String(rows[5]?.c[2]?.v ?? 0).replace(',', '.'));
 
       applyMetric('csat', nivelCSAT(csat), csat.toFixed(1).replace('.', ','), 5, csat);
       applyMetric('aval', nivelAval(aval), Math.round(aval) + '<span class="munit">%</span>', 100, aval);
@@ -329,8 +335,7 @@
       const agora = new Date();
       const hora  = agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
       const mes   = agora.toLocaleString('pt-BR', {month: 'long'});
-      const ano   = agora.getFullYear();
-      label.innerHTML = `<span class="status-dot"></span>atualizado às ${hora}<br>${mes.charAt(0).toUpperCase() + mes.slice(1)} ${ano}`;
+      label.innerHTML = `<span class="status-dot"></span>atualizado às ${hora}<br>${mes.charAt(0).toUpperCase() + mes.slice(1)} ${agora.getFullYear()}`;
 
     } catch(e) {
       label.innerHTML = '<span class="status-dot" style="background:#f08080;box-shadow:0 0 6px rgba(240,128,128,0.5)"></span>erro ao carregar';
