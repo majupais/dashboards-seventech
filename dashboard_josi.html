@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — Josi</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -14,11 +14,13 @@
     --muted: rgba(255,255,255,0.35);
     --hint: rgba(255,255,255,0.18);
     --prata-color: #7ab8f5;
-    --prata-bg: rgba(55,138,221,0.14);
-    --prata-border: rgba(55,138,221,0.28);
+    --prata-bg: rgba(55,138,221,0.12);
+    --prata-card: rgba(55,138,221,0.08);
+    --prata-border: rgba(55,138,221,0.5);
     --bronze-color: #f5c842;
-    --bronze-bg: rgba(220,160,20,0.14);
-    --bronze-border: rgba(220,160,20,0.28);
+    --bronze-bg: rgba(220,160,20,0.12);
+    --bronze-card: rgba(220,160,20,0.07);
+    --bronze-border: rgba(220,160,20,0.5);
     --fora-color: #f08080;
     --fora-bg: rgba(220,70,70,0.12);
     --fora-border: rgba(220,70,70,0.22);
@@ -38,8 +40,7 @@
   .layout {
     display: grid;
     grid-template-columns: 220px 1fr;
-    width: 100vw;
-    height: 100vh;
+    width: 100vw; height: 100vh;
   }
   .sidebar {
     background: var(--surface);
@@ -84,32 +85,79 @@
   }
   .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  /* CARD BASE */
   .mcard {
     background: var(--surface);
     border: 0.5px solid var(--border);
     border-radius: 12px;
     padding: 18px 20px;
     display: flex; flex-direction: column; gap: 8px;
+    transition: background .3s, border-color .3s;
+    position: relative;
+    overflow: hidden;
   }
+
+  /* CARD PRATA */
+  .mcard.prata {
+    background: var(--prata-card);
+    border: 1.5px solid var(--prata-border);
+    box-shadow: 0 0 24px rgba(55,138,221,0.15), inset 0 0 40px rgba(55,138,221,0.05);
+  }
+  .mcard.prata::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(122,184,245,0.8), transparent);
+  }
+
+  /* CARD BRONZE */
+  .mcard.bronze {
+    background: var(--bronze-card);
+    border: 1.5px solid var(--bronze-border);
+    box-shadow: 0 0 24px rgba(220,160,20,0.12), inset 0 0 40px rgba(220,160,20,0.04);
+  }
+  .mcard.bronze::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(245,200,66,0.8), transparent);
+  }
+
+  /* CARD FORA */
+  .mcard.fora {
+    background: var(--surface);
+    border: 0.5px solid rgba(240,128,128,0.15);
+    opacity: 0.7;
+  }
+
   .mlabel { font-size: 9px; font-weight: 500; letter-spacing: .07em; color: var(--muted); }
+
   .mvalue {
-    font-size: 44px; font-weight: 300;
+    font-size: 48px; font-weight: 300;
     letter-spacing: -0.03em; line-height: 1;
     font-family: 'DM Mono', monospace;
   }
+  .mcard.prata .mvalue { font-weight: 400; }
+  .mcard.bronze .mvalue { font-weight: 400; }
+
   .munit { font-size: 18px; font-weight: 300; color: var(--muted); margin-left: 2px; font-family: 'DM Sans', sans-serif; }
+
   .badge {
     display: inline-flex; align-items: center; gap: 5px;
     font-size: 11px; font-weight: 500;
     padding: 3px 10px; border-radius: 20px; width: fit-content;
   }
   .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
-  .prata  { background: var(--prata-bg);  color: var(--prata-color);  border: 0.5px solid var(--prata-border); }
-  .prata::before  { background: var(--prata-color); }
-  .bronze { background: var(--bronze-bg); color: var(--bronze-color); border: 0.5px solid var(--bronze-border); }
-  .bronze::before { background: var(--bronze-color); }
-  .fora   { background: var(--fora-bg);   color: var(--fora-color);   border: 0.5px solid var(--fora-border); }
-  .fora::before   { background: var(--fora-color); }
+  .prata-badge  { background: var(--prata-bg);  color: var(--prata-color);  border: 0.5px solid var(--prata-border); }
+  .prata-badge::before  { background: var(--prata-color); }
+  .bronze-badge { background: var(--bronze-bg); color: var(--bronze-color); border: 0.5px solid var(--bronze-border); }
+  .bronze-badge::before { background: var(--bronze-color); }
+  .fora-badge   { background: var(--fora-bg);   color: var(--fora-color);   border: 0.5px solid var(--fora-border); }
+  .fora-badge::before   { background: var(--fora-color); }
+
   .zbar-wrap { margin-top: auto; padding-top: 12px; }
   .zbar { height: 5px; border-radius: 3px; display: flex; position: relative; margin-bottom: 5px; }
   .zbar-inner { display: flex; width: 100%; height: 5px; border-radius: 3px; overflow: hidden; }
@@ -125,6 +173,7 @@
   }
   .zticks { display: flex; justify-content: space-between; }
   .ztick { font-size: 9px; color: var(--hint); }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -135,6 +184,22 @@
   .grid-3 .mcard:nth-child(3) { animation: fadeUp .35s ease .18s both; }
   .grid-2 .mcard:nth-child(1) { animation: fadeUp .35s ease .23s both; }
   .grid-2 .mcard:nth-child(2) { animation: fadeUp .35s ease .28s both; }
+
+  @keyframes pulse-prata {
+    0%, 100% { box-shadow: 0 0 24px rgba(55,138,221,0.15), inset 0 0 40px rgba(55,138,221,0.05); }
+    50%       { box-shadow: 0 0 36px rgba(55,138,221,0.28), inset 0 0 40px rgba(55,138,221,0.08); }
+  }
+  @keyframes pulse-bronze {
+    0%, 100% { box-shadow: 0 0 24px rgba(220,160,20,0.12), inset 0 0 40px rgba(220,160,20,0.04); }
+    50%       { box-shadow: 0 0 36px rgba(220,160,20,0.22), inset 0 0 40px rgba(220,160,20,0.07); }
+  }
+  .mcard.prata  { animation: fadeUp .35s ease both, pulse-prata  3s ease-in-out 1s infinite; }
+  .mcard.bronze { animation: fadeUp .35s ease both, pulse-bronze 3s ease-in-out 1s infinite; }
+  .grid-3 .mcard.prata:nth-child(1),  .grid-3 .mcard.bronze:nth-child(1)  { animation-delay: .08s, 1s; }
+  .grid-3 .mcard.prata:nth-child(2),  .grid-3 .mcard.bronze:nth-child(2)  { animation-delay: .13s, 1s; }
+  .grid-3 .mcard.prata:nth-child(3),  .grid-3 .mcard.bronze:nth-child(3)  { animation-delay: .18s, 1s; }
+  .grid-2 .mcard.prata:nth-child(1),  .grid-2 .mcard.bronze:nth-child(1)  { animation-delay: .23s, 1s; }
+  .grid-2 .mcard.prata:nth-child(2),  .grid-2 .mcard.bronze:nth-child(2)  { animation-delay: .28s, 1s; }
 </style>
 </head>
 <body>
@@ -155,7 +220,7 @@
       <div class="section-label">QUALIDADE E SATISFAÇÃO</div>
       <div class="grid-3">
 
-        <div class="mcard">
+        <div class="mcard" id="card-csat">
           <div class="mlabel">CSAT — SATISFAÇÃO NO SUPORTE</div>
           <div class="mvalue" id="csat-val">—</div>
           <div class="badge" id="csat-badge">—</div>
@@ -177,7 +242,7 @@
           </div>
         </div>
 
-        <div class="mcard">
+        <div class="mcard" id="card-aval">
           <div class="mlabel">% AVALIAÇÕES RECEBIDAS</div>
           <div class="mvalue" id="aval-val">—</div>
           <div class="badge" id="aval-badge">—</div>
@@ -199,7 +264,7 @@
           </div>
         </div>
 
-        <div class="mcard">
+        <div class="mcard" id="card-mon">
           <div class="mlabel">MONITORIA DE QUALIDADE</div>
           <div class="mvalue" id="mon-val">—</div>
           <div class="badge" id="mon-badge">—</div>
@@ -228,7 +293,7 @@
       <div class="section-label">TEMPO DE RESPOSTA</div>
       <div class="grid-2">
 
-        <div class="mcard">
+        <div class="mcard" id="card-frt">
           <div class="mlabel">FRT — PRIMEIRA RESPOSTA</div>
           <div class="mvalue" id="frt-val">—</div>
           <div class="badge" id="frt-badge">—</div>
@@ -250,7 +315,7 @@
           </div>
         </div>
 
-        <div class="mcard">
+        <div class="mcard" id="card-art">
           <div class="mlabel">ART — TEMPO ENTRE MENSAGENS</div>
           <div class="mvalue" id="art-val">—</div>
           <div class="badge" id="art-badge">—</div>
@@ -292,11 +357,14 @@
   function markerPos(v, max) { return Math.min(Math.max((v / max) * 100, 1), 99).toFixed(1) + '%'; }
 
   function applyMetric(prefix, nivel, displayHTML, max, valor) {
+    const card  = document.getElementById('card-' + prefix);
     const valEl = document.getElementById(prefix + '-val');
+    const badge = document.getElementById(prefix + '-badge');
+
+    card.className  = 'mcard ' + nivel;
     valEl.style.color = corNivel(nivel);
     valEl.innerHTML = displayHTML;
-    const badge = document.getElementById(prefix + '-badge');
-    badge.className = 'badge ' + nivel;
+    badge.className = 'badge ' + nivel + '-badge';
     badge.textContent = labelNivel(nivel);
     document.getElementById(prefix + '-marker').style.left = markerPos(valor, max);
   }
@@ -304,20 +372,11 @@
   async function fetchDados() {
     const label = document.getElementById('period-label');
     try {
-      // Busca sem cabeçalho usando query SQL — lê valores diretos das células
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=A2:C7&headers=0`;
       const res  = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
       const rows = json.table.rows;
-
-      // Com headers=0 e range A2:C7, os índices são:
-      // rows[0] = linha 2 (Pontos Comerciais) — ignorar
-      // rows[1] = linha 3 (CSAT)         → c[0]
-      // rows[2] = linha 4 (% Avaliações)  → c[0]
-      // rows[3] = linha 5 (Monitoria)     → c[0]
-      // rows[4] = linha 6 (FRT)           → c[2]
-      // rows[5] = linha 7 (ART)           → c[2]
 
       const csat    = parseFloat(String(rows[1]?.c[0]?.v ?? 0).replace(',', '.'));
       const avalRaw = rows[2]?.c[0]?.v ?? 0;
