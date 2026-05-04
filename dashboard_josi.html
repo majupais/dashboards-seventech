@@ -354,7 +354,7 @@
 
   function corNivel(n)   { return n==='prata' ? 'var(--prata-color)' : n==='bronze' ? 'var(--bronze-color)' : 'var(--fora-color)'; }
   function labelNivel(n) { return n==='prata' ? 'Prata' : n==='bronze' ? 'Bronze' : 'Fora da meta'; }
-  function markerPos(v, max) { return Math.min(Math.max((v / max) * 100, 1), 99).toFixed(1) + '%'; }
+  function markerPos(v, max) { return Math.min(Math.max((v / max) * 100, 0.5), 99).toFixed(1) + '%'; }
 
   function applyMetric(prefix, nivel, displayHTML, max, valor) {
     const card  = document.getElementById('card-' + prefix);
