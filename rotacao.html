@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboards — Seventech</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    background: #0b0d13;
+    overflow: hidden;
+  }
+  iframe {
+    width: 100vw;
+    height: 100vh;
+    border: none;
+    display: block;
+  }
+  .progress-bar {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: rgba(255,255,255,0.3);
+    transition: none;
+    z-index: 999;
+  }
+</style>
+</head>
+<body>
+
+<iframe id="frame" src="" allowfullscreen></iframe>
+<div class="progress-bar" id="progress"></div>
+
+<script>
+  const BASE = 'https://majupais.github.io/dashboards-seventech/';
+
+  const dashboards = [
+    { file: 'dashboard_josi.html',            label: 'Josi' },
+    { file: 'dashboard_beatriz_roveri.html',  label: 'Beatriz Roveri' },
+    { file: 'dashboard_nicole.html',          label: 'Nicole' },
+    // { file: 'dashboard_vic.html',          label: 'Vic' }, // adicionar quando pronto
+  ];
+
+  const TEMPO_POR_TELA = 60 * 1000; // 1 minuto por pessoa
+  let atual = 0;
+  let inicio = null;
+  let animFrame = null;
+
+  const frame    = document.getElementById('frame');
+  const progress = document.getElementById('progress');
+
+  function mostrar(idx) {
+    atual = idx;
+    frame.src = BASE + dashboards[idx].file;
+    inicio = performance.now();
+    animarBarra();
+  }
+
+  function proxima() {
+    const proximo = (atual + 1) % dashboards.length;
+    mostrar(proximo);
+  }
+
+  function animarBarra() {
+    if (animFrame) cancelAnimationFrame(animFrame);
+    function tick(now) {
+      const elapsed = now - inicio;
+      const pct = Math.min((elapsed / TEMPO_POR_TELA) * 100, 100);
+      progress.style.width = pct + '%';
+      if (elapsed >= TEMPO_POR_TELA) {
+        proxima();
+      } else {
+        animFrame = requestAnimationFrame(tick);
+      }
+    }
+    animFrame = requestAnimationFrame(tick);
+  }
+
+  // Recarrega os dados ao voltar do modo de espera
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      mostrar(atual);
+    }
+  });
+
+  mostrar(0);
+</script>
+</body>
+</html>
