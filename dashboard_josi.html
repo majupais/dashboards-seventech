@@ -378,12 +378,20 @@
       const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
       const rows = json.table.rows;
 
-      const csat    = parseFloat(String(rows[1]?.c[0]?.v ?? 0).replace(',', '.'));
+      function toNum(v) {
+        if (v === null || v === undefined) return 0;
+        if (typeof v === 'number') return v;
+        return parseFloat(String(v).replace('%','').replace(',','.')) || 0;
+      }
+
+      console.log('rows raw:', JSON.stringify(rows.map(r => r?.c?.map(c => c?.v))));
+
+      const csat    = toNum(rows[1]?.c[0]?.v);
       const avalRaw = rows[2]?.c[0]?.v ?? 0;
-      const aval    = typeof avalRaw === 'number' && avalRaw <= 1 ? avalRaw * 100 : parseFloat(String(avalRaw).replace('%','').replace(',','.'));
-      const mon     = parseFloat(String(rows[3]?.c[0]?.v ?? 0).replace(',', '.'));
-      const frt     = parseFloat(String(rows[4]?.c[2]?.v ?? 0).replace(',', '.'));
-      const art     = parseFloat(String(rows[5]?.c[2]?.v ?? 0).replace(',', '.'));
+      const aval    = (typeof avalRaw === 'number' && avalRaw <= 1) ? avalRaw * 100 : toNum(avalRaw);
+      const mon     = toNum(rows[3]?.c[0]?.v);
+      const frt     = toNum(rows[4]?.c[2]?.v);
+      const art     = toNum(rows[5]?.c[2]?.v);
 
       applyMetric('csat', nivelCSAT(csat), csat.toFixed(1).replace('.', ','), 5, csat);
       applyMetric('aval', nivelAval(aval), Math.round(aval) + '<span class="munit">%</span>', 100, aval);
