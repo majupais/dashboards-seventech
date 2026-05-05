@@ -22,7 +22,6 @@
     bottom: 0; left: 0;
     height: 3px;
     background: rgba(255,255,255,0.3);
-    transition: none;
     z-index: 999;
   }
 </style>
@@ -36,13 +35,14 @@
   const BASE = 'https://majupais.github.io/dashboards-seventech/';
 
   const dashboards = [
-    { file: 'dashboard_josi.html',            label: 'Josi' },
-    { file: 'dashboard_beatriz_roveri.html',  label: 'Beatriz Roveri' },
-    { file: 'dashboard_nicole.html',          label: 'Nicole' },
-    // { file: 'dashboard_vic.html',          label: 'Vic' }, // adicionar quando pronto
+    { file: 'dashboard_josi.html',           label: 'Josi' },
+    { file: 'dashboard_bia.html',            label: 'Bia' },
+    { file: 'dashboard_victoria.html',       label: 'Victoria' },
+    { file: 'dashboard_nicole.html',         label: 'Nicole' },
+    { file: 'dashboard_beatriz_roveri.html', label: 'Beatriz Roveri' },
   ];
 
-  const TEMPO_POR_TELA = 60 * 1000; // 1 minuto por pessoa
+  const TEMPO_POR_TELA = 60 * 1000;
   let atual = 0;
   let inicio = null;
   let animFrame = null;
@@ -58,8 +58,7 @@
   }
 
   function proxima() {
-    const proximo = (atual + 1) % dashboards.length;
-    mostrar(proximo);
+    mostrar((atual + 1) % dashboards.length);
   }
 
   function animarBarra() {
@@ -77,11 +76,8 @@
     animFrame = requestAnimationFrame(tick);
   }
 
-  // Recarrega os dados ao voltar do modo de espera
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-      mostrar(atual);
-    }
+    if (document.visibilityState === 'visible') mostrar(atual);
   });
 
   mostrar(0);
