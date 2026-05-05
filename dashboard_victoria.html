@@ -297,16 +297,14 @@
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
-                <div class="z-n2"    style="width:0.9%"></div>
-                <div class="z-n1"    style="width:19.1%"></div>
+                <div class="z-n1"    style="width:20%"></div>
                 <div class="z-empty" style="flex:1"></div>
               </div>
               <div class="zmarker" id="inad-marker" style="left:50%"></div>
             </div>
             <div class="zticks">
               <span class="ztick">0%</span>
-              <span class="ztick">nível 2: 0%</span>
-              <span class="ztick">nível 1: 2%</span>
+              <span class="ztick">meta: 2%</span>
               <span class="ztick">10%</span>
             </div>
           </div>
@@ -327,7 +325,7 @@
   function nivelAval(v)  { return v >= 65  ? 'n2' : v >= 50  ? 'n1' : 'fora'; }
   function nivelSimpl(v) { return v >= 4.8 ? 'n2' : v >= 4.5 ? 'n1' : 'fora'; }
   function nivelAimpl(v) { return v >= 90  ? 'n2' : v >= 80  ? 'n1' : 'fora'; }
-  function nivelInad(v)  { return v === 0  ? 'n2' : v <= 2   ? 'n1' : 'fora'; }
+  function nivelInad(v)  { return v <= 2 ? 'n1' : 'fora'; }
 
   function corNivel(n)   { return n==='n2' ? 'var(--n2-color)' : n==='n1' ? 'var(--n1-color)' : 'var(--fora-color)'; }
   function labelNivel(n) { return n==='n2' ? 'Nível 2' : n==='n1' ? 'Nível 1' : 'Fora da meta'; }
