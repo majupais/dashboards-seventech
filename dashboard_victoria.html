@@ -376,10 +376,10 @@
       const inad  = typeof inadRaw === 'number' && inadRaw <= 1 ? inadRaw * 100 : toNum(inadRaw);
 
       applyMetric('csat',  nivelCSAT(csat),   csat.toFixed(1).replace('.',','), 5, csat);
-      applyMetric('aval',  nivelAval(aval),   Math.round(aval) + '<span class="munit">%</span>', 100, aval);
+      applyMetric('aval',  nivelAval(aval),   aval.toFixed(2).replace(".",",") + '<span class="munit">%</span>', 100, aval);
       applyMetric('simpl', nivelSimpl(simpl), simpl.toFixed(1).replace('.',','), 5, simpl);
-      applyMetric('aimpl', nivelAimpl(aimpl), Math.round(aimpl) + '<span class="munit">%</span>', 100, aimpl);
-      applyMetric('inad',  nivelInad(inad),   inad.toFixed(1).replace('.',',') + '<span class="munit">%</span>', 10, inad);
+      applyMetric('aimpl', nivelAimpl(aimpl), aimpl.toFixed(2).replace(".",",") + '<span class="munit">%</span>', 100, aimpl);
+      applyMetric('inad',  nivelInad(inad),   inad.toFixed(2).replace('.',',') + '<span class="munit">%</span>', 10, inad);
 
       const agora = new Date();
       const hora  = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});

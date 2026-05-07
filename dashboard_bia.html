@@ -195,8 +195,8 @@
       console.log('nota:', nota, 'aval:', aval, 'noshow:', noshow);
 
       applyMetric('nota',   nota >= 4.0,   nota.toFixed(1).replace('.',','),                           (nota / 5) * 100);
-      applyMetric('noshow', noshow <= 20,  noshow.toFixed(1).replace('.',',') + '<span class="munit">%</span>', (noshow / 100) * 100);
-      applyMetric('aval',   aval >= 50,    Math.round(aval) + '<span class="munit">%</span>',          (aval / 100) * 100);
+      applyMetric('noshow', noshow <= 20,  noshow.toFixed(2).replace('.',',') + '<span class="munit">%</span>', (noshow / 100) * 100);
+      applyMetric('aval',   aval >= 50,    aval.toFixed(2).replace(".",",") + '<span class="munit">%</span>',          (aval / 100) * 100);
 
       const agora = new Date();
       const hora  = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
