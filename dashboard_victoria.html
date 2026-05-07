@@ -352,7 +352,7 @@
   async function fetchDados() {
     const label = document.getElementById('period-label');
     try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=A1:A7&headers=0`;
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=A3:A7&headers=0`;
       const res  = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
@@ -366,14 +366,15 @@
       // rows[5] = A6 % Avaliações implantação
       // rows[6] = A7 % Inadimplência
 
-      const csat  = toNum(rows[2]?.c[0]?.v);
-      const avalRaw = rows[3]?.c[0]?.v ?? 0;
-      const aval  = typeof avalRaw === 'number' && avalRaw <= 1 ? avalRaw * 100 : toNum(avalRaw);
-      const simpl = toNum(rows[4]?.c[0]?.v);
-      const aimplRaw = rows[5]?.c[0]?.v ?? 0;
-      const aimpl = typeof aimplRaw === 'number' && aimplRaw <= 1 ? aimplRaw * 100 : toNum(aimplRaw);
-      const inadRaw = rows[6]?.c[0]?.v ?? 0;
-      const inad  = typeof inadRaw === 'number' && inadRaw <= 1 ? inadRaw * 100 : toNum(inadRaw);
+      // range A3:A7 → rows[0]=A3 CSAT, rows[1]=A4 %Aval, rows[2]=A5 Simpl, rows[3]=A6 %Aimpl, rows[4]=A7 Inad
+      const csat     = toNum(rows[0]?.c[0]?.v);
+      const avalRaw  = rows[1]?.c[0]?.v ?? 0;
+      const aval     = typeof avalRaw === 'number' && avalRaw <= 1 ? avalRaw * 100 : toNum(avalRaw);
+      const simpl    = toNum(rows[2]?.c[0]?.v);
+      const aimplRaw = rows[3]?.c[0]?.v ?? 0;
+      const aimpl    = typeof aimplRaw === 'number' && aimplRaw <= 1 ? aimplRaw * 100 : toNum(aimplRaw);
+      const inadRaw  = rows[4]?.c[0]?.v ?? 0;
+      const inad     = typeof inadRaw === 'number' && inadRaw <= 1 ? inadRaw * 100 : toNum(inadRaw);
 
       applyMetric('csat',  nivelCSAT(csat),   csat.toFixed(1).replace('.',','), 5, csat);
       applyMetric('aval',  nivelAval(aval),   aval.toFixed(2).replace(".",",") + '<span class="munit">%</span>', 100, aval);
