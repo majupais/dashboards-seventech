@@ -354,6 +354,11 @@
 
   function corNivel(n)   { return n==='prata' ? 'var(--prata-color)' : n==='bronze' ? 'var(--bronze-color)' : 'var(--fora-color)'; }
   function labelNivel(n) { return n==='prata' ? 'Prata' : n==='bronze' ? 'Bronze' : 'Fora da meta'; }
+  function toMinSec(v) {
+    const mins = Math.floor(v);
+    const secs = Math.round((v - mins) * 60);
+    return secs > 0 ? `${ mins }:${ String(secs).padStart(2,'0') }` : `${ mins }:00`;
+  }
   function markerPos(v, max) { return Math.min(Math.max((v / max) * 100, 0.5), 99).toFixed(1) + '%'; }
 
   function applyMetric(prefix, nivel, displayHTML, max, valor) {
@@ -396,8 +401,8 @@
       applyMetric('csat', nivelCSAT(csat), csat.toFixed(1).replace('.', ','), 5, csat);
       applyMetric('aval', nivelAval(aval), Math.round(aval) + '<span class="munit">%</span>', 100, aval);
       applyMetric('mon',  nivelMon(mon),   mon.toFixed(1).replace('.', ','), 5, mon);
-      applyMetric('frt',  nivelFRT(frt),   frt.toFixed(1).replace('.', ',') + '<span class="munit">min</span>', 8, frt);
-      applyMetric('art',  nivelART(art),   art.toFixed(1).replace('.', ',') + '<span class="munit">min</span>', 10, art);
+      applyMetric('frt',  nivelFRT(frt),   toMinSec(frt) + '<span class="munit">min</span>', 8, frt);
+      applyMetric('art',  nivelART(art),   toMinSec(art) + '<span class="munit">min</span>', 10, art);
 
       const agora = new Date();
       const hora  = agora.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
