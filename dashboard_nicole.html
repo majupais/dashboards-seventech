@@ -332,7 +332,7 @@
       document.getElementById('total-card').className = 'total-card ' + nv;
       const valEl = document.getElementById('total-val');
       valEl.style.color = corNivel(nv);
-      valEl.textContent = totalPts.toLocaleString('pt-BR');
+      valEl.textContent = Math.round(totalPts).toLocaleString('pt-BR');
       const badge = document.getElementById('medal-badge');
       badge.className = 'medal-badge ' + nv + '-b';
       badge.textContent = labelNivel(nv);
