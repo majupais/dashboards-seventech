@@ -96,7 +96,13 @@
     color: var(--gold);
     text-shadow: 0 0 40px rgba(255,215,0,0.5);
   }
-  .count-meta {
+  .count-slash {
+    font-size: 60px;
+    font-weight: 400;
+    color: rgba(255,215,0,0.4);
+    letter-spacing: -0.02em;
+  }
+  .meta-batida .count-slash { color: rgba(76,223,138,0.4); }
     font-size: 17px;
     color: var(--muted);
     margin-top: 6px;
@@ -228,8 +234,7 @@
 
   <div class="main-card" id="main-card">
     <div class="count-label">VENDAS REALIZADAS</div>
-    <div class="count-value" id="count">—</div>
-    <div class="count-meta">de 30 vendas</div>
+    <div class="count-value" id="count">— <span class="count-slash">/ 30</span></div>
     <div class="faltam" id="faltam">carregando...</div>
   </div>
 
@@ -288,7 +293,7 @@
       const page = document.getElementById('page');
 
       // Número
-      document.getElementById('count').textContent = vendas;
+      document.getElementById('count').innerHTML = vendas + ' <span class="count-slash">/ 30</span>';
 
       // Barra
       document.getElementById('progress-fill').style.width = pct + '%';
