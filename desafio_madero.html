@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio Madero — Aquisição</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b0d13;
+    --surface: #13161f;
+    --gold: #FFD700;
+    --gold-border: rgba(255,215,0,0.4);
+    --green: #4cdf8a;
+    --hint: rgba(255,255,255,0.2);
+    --muted: rgba(255,255,255,0.4);
+  }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: #f0f0f0;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  .page {
+    width: 100vw; height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 40px;
+    position: relative;
+  }
+  .bg-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(255,215,0,0.07) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .header { text-align: center; }
+  .emoji-big {
+    font-size: 60px;
+    line-height: 1;
+    margin-bottom: 12px;
+    display: block;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .title {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(255,215,0,0.4);
+  }
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .main-card {
+    background: var(--surface);
+    border: 1.5px solid var(--gold-border);
+    border-radius: 20px;
+    padding: 40px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-width: 500px;
+    animation: pulse-gold 3s ease-in-out infinite;
+  }
+  .main-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .count-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .count-value {
+    font-size: 100px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(255,215,0,0.5);
+  }
+  .count-meta {
+    font-size: 17px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .faltam {
+    margin-top: 18px;
+    font-size: 20px;
+    color: #f0f0f0;
+    font-weight: 400;
+  }
+  .faltam span {
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 26px;
+  }
+  .progress-section { width: 100%; max-width: 560px; }
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .progress-track {
+    width: 100%;
+    height: 18px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 9px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 9px;
+    background: linear-gradient(90deg, #B8860B, #FFD700, #FFF176);
+    transition: width 1.2s ease;
+    min-width: 4px;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 50px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+    animation: shimmer 2s ease-in-out infinite;
+  }
+  .progress-pct {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  /* META BATIDA */
+  .meta-batida .main-card {
+    border-color: rgba(76,223,138,0.5);
+    animation: pulse-green 2s ease-in-out infinite;
+  }
+  .meta-batida .main-card::before {
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+  }
+  .meta-batida .count-value {
+    color: var(--green);
+    text-shadow: 0 0 40px rgba(76,223,138,0.5);
+  }
+  .meta-batida .title { color: var(--green); text-shadow: 0 0 30px rgba(76,223,138,0.4); }
+  .meta-batida .faltam span { color: var(--green); }
+  .meta-batida .progress-fill {
+    background: linear-gradient(90deg, #2d8f5a, #4cdf8a, #a8f5c8);
+  }
+  .updated { font-size: 11px; color: var(--hint); text-align: center; }
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4caf7d; display: inline-block; margin-right: 5px;
+    box-shadow: 0 0 5px rgba(76,175,125,0.6);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+  @keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50%       { opacity: 1; }
+  }
+  @keyframes pulse-gold {
+    0%, 100% { box-shadow: 0 0 40px rgba(255,215,0,0.1); }
+    50%       { box-shadow: 0 0 70px rgba(255,215,0,0.22); }
+  }
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 40px rgba(76,223,138,0.15); }
+    50%       { box-shadow: 0 0 70px rgba(76,223,138,0.32); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .header           { animation: fadeUp .4s ease both; }
+  .main-card        { animation: fadeUp .4s ease .1s both, pulse-gold 3s ease-in-out 1s infinite; }
+  .progress-section { animation: fadeUp .4s ease .2s both; }
+  /* CONFETTI */
+  .confetti-container {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; display: none;
+  }
+  .confetti-piece {
+    position: absolute; top: -20px; opacity: 0;
+    border-radius: 2px;
+    animation: confetti-fall 4s ease-in infinite;
+  }
+  @keyframes confetti-fall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="confetti-container" id="confetti"></div>
+
+<div class="page" id="page">
+
+  <div class="header">
+    <span class="emoji-big" id="emoji">🍔</span>
+    <div class="title" id="title">Desafio Madero</div>
+    <div class="subtitle">Time de Aquisição — Maio 2025</div>
+  </div>
+
+  <div class="main-card" id="main-card">
+    <div class="count-label">VENDAS REALIZADAS</div>
+    <div class="count-value" id="count">—</div>
+    <div class="count-meta">de 30 vendas</div>
+    <div class="faltam" id="faltam">carregando...</div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-header">
+      <span>0</span>
+      <span>🎯 Meta: 30 vendas</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-pct" id="progress-pct">—</div>
+  </div>
+
+  <div class="updated" id="updated">
+    <span class="status-dot"></span>carregando...
+  </div>
+
+</div>
+
+<script>
+  const SHEET_ID   = "1_IwXgibR1io9ap79FukA3Ofm-hbrblghcY_XZFRENS4";
+  const SHEET_NAME = "Aquisição";
+  const META = 30;
+
+  const CORES = ['#FFD700','#FFF176','#4cdf8a','#7ab8f5','#f08080','#ff9f43','#fff'];
+
+  function criarConfetti() {
+    const container = document.getElementById('confetti');
+    container.innerHTML = '';
+    container.style.display = 'block';
+    for (let i = 0; i < 70; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.background = CORES[Math.floor(Math.random() * CORES.length)];
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.animationDuration = (3 + Math.random() * 2) + 's';
+      el.style.width  = (6 + Math.random() * 10) + 'px';
+      el.style.height = (6 + Math.random() * 10) + 'px';
+      container.appendChild(el);
+    }
+  }
+
+  async function fetchDados() {
+    const updEl = document.getElementById('updated');
+    try {
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=B1:B1&headers=0`;
+      const res  = await fetch(url);
+      const text = await res.text();
+      const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+      const vendas = Math.max(0, parseInt(json.table.rows[0]?.c[0]?.v ?? 0));
+      const faltam = Math.max(0, META - vendas);
+      const pct = Math.min((vendas / META) * 100, 100).toFixed(0);
+      const batida = vendas >= META;
+      const page = document.getElementById('page');
+
+      // Número
+      document.getElementById('count').textContent = vendas;
+
+      // Barra
+      document.getElementById('progress-fill').style.width = pct + '%';
+      document.getElementById('progress-pct').textContent = pct + '% concluído';
+
+      // Mensagem
+      if (batida) {
+        page.classList.add('meta-batida');
+        document.getElementById('emoji').textContent = '🎉';
+        document.getElementById('title').textContent = 'META BATIDA!';
+        document.getElementById('faltam').innerHTML = '🏆 Parabéns, time de Aquisição! Bora pro Madero!';
+        criarConfetti();
+      } else if (faltam === 1) {
+        document.getElementById('faltam').innerHTML = 'Falta <span>1 venda</span> para o Madero! 🔥';
+      } else {
+        document.getElementById('faltam').innerHTML = 'Faltam <span>${faltam}</span> vendas para o Madero!';
+      }
+
+      // Horário
+      const agora = new Date();
+      const hora = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      updEl.innerHTML = `<span class="status-dot"></span>atualizado às ${hora}`;
+
+    } catch(e) {
+      updEl.innerHTML = '<span class="status-dot" style="background:#f08080"></span>erro ao carregar';
+      console.error(e);
+    }
+  }
+
+  fetchDados();
+  setInterval(() => location.reload(), 15 * 60 * 1000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') location.reload();
+  });
+</script>
+</body>
+</html>
