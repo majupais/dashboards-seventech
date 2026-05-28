@@ -3,216 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Desafio Madero — Aquisição</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Desafio Madero — Seventech</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap');
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0b0d13;
-    --surface: #13161f;
-    --gold: #FFD700;
-    --gold-border: rgba(255,215,0,0.4);
-    --green: #4cdf8a;
-    --hint: rgba(255,255,255,0.2);
-    --muted: rgba(255,255,255,0.4);
-  }
+
   html, body {
     width: 100%; height: 100%;
-    background: var(--bg);
-    font-family: 'DM Sans', sans-serif;
-    color: #f0f0f0;
-    -webkit-font-smoothing: antialiased;
+    background: #0b0d13;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Sora', sans-serif;
+    color: #fff;
     overflow: hidden;
   }
-  .page {
-    width: 100vw; height: 100vh;
+
+  #page {
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 28px;
     padding: 40px;
-    position: relative;
+    transition: background 0.8s ease;
   }
-  .bg-glow {
-    position: absolute;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(255,215,0,0.07) 0%, transparent 70%);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
+
+  #page.meta-batida {
+    background: radial-gradient(ellipse at center, #0a2e1a 0%, #0b0d13 70%);
   }
-  .header { text-align: center; }
-  .emoji-big {
-    font-size: 60px;
-    line-height: 1;
-    margin-bottom: 12px;
-    display: block;
-    animation: bounce 2s ease-in-out infinite;
-  }
-  .title {
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--gold);
-    text-shadow: 0 0 30px rgba(255,215,0,0.4);
-  }
-  .subtitle {
-    font-size: 14px;
-    color: var(--muted);
-    margin-top: 6px;
-  }
-  .main-card {
-    background: var(--surface);
-    border: 1.5px solid var(--gold-border);
-    border-radius: 20px;
-    padding: 40px 80px;
+
+  /* Header */
+  .header {
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    min-width: 500px;
-    animation: pulse-gold 3s ease-in-out infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
-  .main-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
-  .count-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .12em;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  .count-value {
-    font-size: 100px;
-    font-weight: 700;
-    letter-spacing: -0.04em;
+
+  #emoji {
+    font-size: 56px;
     line-height: 1;
-    font-family: 'DM Mono', monospace;
-    color: var(--gold);
-    text-shadow: 0 0 40px rgba(255,215,0,0.5);
   }
-  .count-slash {
-    font-size: 60px;
-    font-weight: 400;
-    color: rgba(255,215,0,0.4);
-    letter-spacing: -0.02em;
+
+  #title {
+    font-size: clamp(26px, 3.5vw, 42px);
+    font-weight: 800;
+    color: #f5c842;
+    letter-spacing: 0.02em;
   }
-  .meta-batida .count-slash { color: rgba(76,223,138,0.4); }
-    font-size: 17px;
-    color: var(--muted);
-    margin-top: 6px;
+
+  .meta-batida #title { color: #3dffa0; }
+
+  .subtitle {
+    font-size: clamp(12px, 1.4vw, 16px);
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.06em;
   }
-  .faltam {
-    margin-top: 18px;
-    font-size: 20px;
-    color: #f0f0f0;
-    font-weight: 400;
+
+  /* Card central */
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: clamp(28px, 4vw, 48px) clamp(32px, 6vw, 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 0 60px rgba(245,200,66,0.06);
+    min-width: min(560px, 85vw);
   }
-  .faltam span {
-    color: var(--gold);
+
+  .meta-batida .card {
+    box-shadow: 0 0 60px rgba(61,255,160,0.08);
+    border-color: rgba(61,255,160,0.15);
+  }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.3);
+    text-transform: uppercase;
+  }
+
+  .count-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  #count {
+    font-size: clamp(80px, 13vw, 160px);
+    font-weight: 800;
+    line-height: 1;
+    color: #f5c842;
+    letter-spacing: -3px;
+  }
+
+  .meta-batida #count { color: #3dffa0; }
+
+  .count-sep {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.2);
+    line-height: 1;
+  }
+
+  .count-meta {
+    font-size: clamp(40px, 6vw, 72px);
     font-weight: 700;
-    font-size: 26px;
+    color: rgba(245,200,66,0.3);
+    line-height: 1;
+    letter-spacing: -2px;
   }
-  .progress-section { width: 100%; max-width: 560px; }
-  .progress-header {
+
+  .meta-batida .count-meta { color: rgba(61,255,160,0.3); }
+
+  #faltam {
+    font-size: clamp(15px, 1.8vw, 22px);
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+  }
+
+  #faltam span {
+    color: #f5c842;
+    font-weight: 800;
+  }
+
+  .meta-batida #faltam { color: #3dffa0; }
+
+  /* Barra de progresso */
+  .progress-section {
+    width: min(600px, 82vw);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .progress-labels {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
     font-size: 12px;
-    color: var(--muted);
+    color: rgba(255,255,255,0.25);
   }
+
+  .progress-labels .meta-tag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
   .progress-track {
     width: 100%;
-    height: 18px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 9px;
+    height: 12px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
     overflow: hidden;
-    position: relative;
   }
-  .progress-fill {
+
+  #progress-fill {
     height: 100%;
-    border-radius: 9px;
-    background: linear-gradient(90deg, #B8860B, #FFD700, #FFF176);
-    transition: width 1.2s ease;
-    min-width: 4px;
-    position: relative;
+    background: linear-gradient(90deg, #c8a000, #f5c842);
+    border-radius: 99px;
+    width: 0%;
+    transition: width 1.2s cubic-bezier(.4,0,.2,1);
   }
-  .progress-fill::after {
-    content: '';
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: 50px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
-    animation: shimmer 2s ease-in-out infinite;
+
+  .meta-batida #progress-fill {
+    background: linear-gradient(90deg, #00c97a, #3dffa0);
   }
-  .progress-pct {
+
+  #progress-pct {
     text-align: center;
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--muted);
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.04em;
   }
-  /* META BATIDA */
-  .meta-batida .main-card {
-    border-color: rgba(76,223,138,0.5);
-    animation: pulse-green 2s ease-in-out infinite;
+
+  /* Status */
+  .status {
+    position: fixed;
+    bottom: 18px;
+    right: 22px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.22);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.03em;
   }
-  .meta-batida .main-card::before {
-    background: linear-gradient(90deg, transparent, var(--green), transparent);
-  }
-  .meta-batida .count-value {
-    color: var(--green);
-    text-shadow: 0 0 40px rgba(76,223,138,0.5);
-  }
-  .meta-batida .title { color: var(--green); text-shadow: 0 0 30px rgba(76,223,138,0.4); }
-  .meta-batida .faltam span { color: var(--green); }
-  .meta-batida .progress-fill {
-    background: linear-gradient(90deg, #2d8f5a, #4cdf8a, #a8f5c8);
-  }
-  .updated { font-size: 11px; color: var(--hint); text-align: center; }
+
   .status-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: #4caf7d; display: inline-block; margin-right: 5px;
-    box-shadow: 0 0 5px rgba(76,175,125,0.6);
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #3dffa0;
+    display: inline-block;
   }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-10px); }
-  }
-  @keyframes shimmer {
-    0%, 100% { opacity: 0; }
-    50%       { opacity: 1; }
-  }
-  @keyframes pulse-gold {
-    0%, 100% { box-shadow: 0 0 40px rgba(255,215,0,0.1); }
-    50%       { box-shadow: 0 0 70px rgba(255,215,0,0.22); }
-  }
-  @keyframes pulse-green {
-    0%, 100% { box-shadow: 0 0 40px rgba(76,223,138,0.15); }
-    50%       { box-shadow: 0 0 70px rgba(76,223,138,0.32); }
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .header           { animation: fadeUp .4s ease both; }
-  .main-card        { animation: fadeUp .4s ease .1s both, pulse-gold 3s ease-in-out 1s infinite; }
-  .progress-section { animation: fadeUp .4s ease .2s both; }
-  /* CONFETTI */
-  .confetti-container {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none; display: none;
-  }
+
+  /* Confetti */
   .confetti-piece {
-    position: absolute; top: -20px; opacity: 0;
+    position: fixed;
+    top: -20px;
     border-radius: 2px;
-    animation: confetti-fall 4s ease-in infinite;
+    animation: confetti-fall linear forwards;
+    pointer-events: none;
+    z-index: 999;
   }
+
   @keyframes confetti-fall {
     0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
@@ -221,85 +225,83 @@
 </head>
 <body>
 
-<div class="bg-glow"></div>
-<div class="confetti-container" id="confetti"></div>
-
-<div class="page" id="page">
-
+<div id="page">
   <div class="header">
-    <span class="emoji-big" id="emoji">🍔</span>
-    <div class="title" id="title">Desafio Madero</div>
+    <div id="emoji">🍔</div>
+    <div id="title">Desafio Madero</div>
     <div class="subtitle">Time de Aquisição — Maio 2025</div>
   </div>
 
-  <div class="main-card" id="main-card">
-    <div class="count-label">VENDAS REALIZADAS</div>
-    <div class="count-value" id="count">— <span class="count-slash">/ 30</span></div>
-    <div class="faltam" id="faltam">carregando...</div>
+  <div class="card">
+    <div class="card-label">Vendas Realizadas</div>
+    <div class="count-row">
+      <div id="count">—</div>
+      <div class="count-sep">/</div>
+      <div class="count-meta">30</div>
+    </div>
+    <div id="faltam">Carregando...</div>
   </div>
 
   <div class="progress-section">
-    <div class="progress-header">
+    <div class="progress-labels">
       <span>0</span>
-      <span>🎯 Meta: 30 vendas</span>
+      <span class="meta-tag">🎯 Meta: 30 vendas</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      <div id="progress-fill"></div>
     </div>
-    <div class="progress-pct" id="progress-pct">—</div>
+    <div id="progress-pct">0% concluído</div>
   </div>
-
-  <div class="updated" id="updated">
-    <span class="status-dot"></span>carregando...
-  </div>
-
 </div>
 
+<div class="status" id="status"></div>
+
 <script>
-  const SHEET_ID   = "1_IwXgibR1io9ap79FukA3Ofm-hbrblghcY_XZFRENS4";
-  const SHEET_NAME = "Aquisição";
+  const SUPABASE_URL = 'https://qnzpxcorujijvxcpcyvx.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuenB4Y29ydWppdnhjcGN5dngiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc0MjkxMjM3MCwiZXhwIjoyMDU4NDg4MzcwfQ.YBBqivqp_FaXDCvGblqBQP-8gNE_9yhWmtAxoR0PVTU';
   const META = 30;
 
-  const CORES = ['#FFD700','#FFF176','#4cdf8a','#7ab8f5','#f08080','#ff9f43','#fff'];
+  const updEl = document.getElementById('status');
 
   function criarConfetti() {
-    const container = document.getElementById('confetti');
-    container.innerHTML = '';
-    container.style.display = 'block';
-    for (let i = 0; i < 70; i++) {
+    const cores = ['#f5c842','#3dffa0','#ff6b6b','#74b9ff','#fd79a8','#a29bfe'];
+    for (let i = 0; i < 120; i++) {
       const el = document.createElement('div');
-      el.className = 'confetti-piece';
-      el.style.left = Math.random() * 100 + '%';
-      el.style.background = CORES[Math.floor(Math.random() * CORES.length)];
-      el.style.animationDelay = (Math.random() * 3) + 's';
-      el.style.animationDuration = (3 + Math.random() * 2) + 's';
-      el.style.width  = (6 + Math.random() * 10) + 'px';
-      el.style.height = (6 + Math.random() * 10) + 'px';
-      container.appendChild(el);
+      el.classList.add('confetti-piece');
+      const size = Math.random() * 10 + 6;
+      el.style.cssText = [
+        'width:' + size + 'px',
+        'height:' + (size * (Math.random() * 0.6 + 0.4)) + 'px',
+        'left:' + (Math.random() * 100) + 'vw',
+        'background:' + cores[Math.floor(Math.random() * cores.length)],
+        'animation-duration:' + (Math.random() * 3 + 2.5) + 's',
+        'animation-delay:' + (Math.random() * 2) + 's'
+      ].join(';');
+      document.body.appendChild(el);
+      setTimeout(function() { el.remove(); }, 7000);
     }
   }
 
   async function fetchDados() {
-    const updEl = document.getElementById('updated');
     try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=B1:B1&headers=0`;
-      const res  = await fetch(url);
-      const text = await res.text();
-      const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
-      const vendas = Math.max(0, parseInt(json.table.rows[0]?.c[0]?.v ?? 0));
-      const faltam = Math.max(0, META - vendas);
-      const pct = Math.min((vendas / META) * 100, 100).toFixed(0);
-      const batida = vendas >= META;
-      const page = document.getElementById('page');
+      var url = SUPABASE_URL + '/rest/v1/desafio_madero?select=vendas&order=id.desc&limit=1';
+      var res = await fetch(url, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY
+        }
+      });
+      var data = await res.json();
+      var vendas = parseInt((data[0] && data[0].vendas) || 0);
+      var faltam = Math.max(0, META - vendas);
+      var pct = Math.min((vendas / META) * 100, 100).toFixed(0);
+      var batida = vendas >= META;
+      var page = document.getElementById('page');
 
-      // Número
-      document.getElementById('count').innerHTML = vendas + ' <span class="count-slash">/ 30</span>';
-
-      // Barra
+      document.getElementById('count').textContent = vendas;
       document.getElementById('progress-fill').style.width = pct + '%';
       document.getElementById('progress-pct').textContent = pct + '% concluído';
 
-      // Mensagem
       if (batida) {
         page.classList.add('meta-batida');
         document.getElementById('emoji').textContent = '🎉';
@@ -309,13 +311,12 @@
       } else if (faltam === 1) {
         document.getElementById('faltam').innerHTML = 'Falta <span>1 venda</span> para o Madero! 🔥';
       } else {
-        document.getElementById('faltam').innerHTML = 'Faltam <span>${faltam}</span> vendas para o Madero!';
+        document.getElementById('faltam').innerHTML = 'Faltam <span>' + faltam + '</span> vendas para o Madero!';
       }
 
-      // Horário
-      const agora = new Date();
-      const hora = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
-      updEl.innerHTML = `<span class="status-dot"></span>atualizado às ${hora}`;
+      var agora = new Date();
+      var hora = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+      updEl.innerHTML = '<span class="status-dot"></span>atualizado às ' + hora;
 
     } catch(e) {
       updEl.innerHTML = '<span class="status-dot" style="background:#f08080"></span>erro ao carregar';
@@ -324,8 +325,8 @@
   }
 
   fetchDados();
-  setInterval(() => location.reload(), 15 * 60 * 1000);
-  document.addEventListener('visibilitychange', () => {
+  setInterval(function() { location.reload(); }, 15 * 60 * 1000);
+  document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'visible') location.reload();
   });
 </script>
