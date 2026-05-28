@@ -298,20 +298,7 @@
       // Barra
       document.getElementById('progress-fill').style.width = pct + '%';
       document.getElementById('progress-pct').textContent = pct + '% concluído';
-
-      // Mensagem
-      if (batida) {
-        page.classList.add('meta-batida');
-        document.getElementById('emoji').textContent = '🎉';
-        document.getElementById('title').textContent = 'META BATIDA!';
-        document.getElementById('faltam').innerHTML = '🏆 Parabéns, time de Aquisição! Bora pro Madero!';
-        criarConfetti();
-      } else if (faltam === 1) {
-        document.getElementById('faltam').innerHTML = 'Falta <span>1 venda</span> para o Madero! 🔥';
-      } else {
-        document.getElementById('faltam').innerHTML = 'Faltam <span>12</span> vendas para o Madero!';
-      }
-
+     
       // Horário
       const agora = new Date();
       const hora = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
