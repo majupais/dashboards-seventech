@@ -229,12 +229,13 @@
   <div class="header">
     <span class="emoji-big" id="emoji">🍔</span>
     <div class="title" id="title">Desafio Madero</div>
-    <div class="subtitle">Time de Aquisição — Maio 2026</div>
+    <div class="subtitle">Time de Aquisição — Maio 2025</div>
   </div>
 
   <div class="main-card" id="main-card">
     <div class="count-label">VENDAS REALIZADAS</div>
     <div class="count-value" id="count">— <span class="count-slash">/ 30</span></div>
+    <div class="faltam" id="faltam">carregando...</div>
   </div>
 
   <div class="progress-section">
@@ -249,6 +250,7 @@
   </div>
 
   <div class="updated" id="updated">
+    <span class="status-dot"></span>carregando...
   </div>
 
 </div>
@@ -296,7 +298,20 @@
       // Barra
       document.getElementById('progress-fill').style.width = pct + '%';
       document.getElementById('progress-pct').textContent = pct + '% concluído';
-     
+
+      // Mensagem
+      if (batida) {
+        page.classList.add('meta-batida');
+        document.getElementById('emoji').textContent = '🎉';
+        document.getElementById('title').textContent = 'META BATIDA!';
+        document.getElementById('faltam').innerHTML = '🏆 Parabéns, time de Aquisição! Bora pro Madero!';
+        criarConfetti();
+      } else if (faltam === 1) {
+        document.getElementById('faltam').innerHTML = 'Falta <span>1 venda</span> para o Madero! 🔥';
+      } else {
+        document.getElementById('faltam').innerHTML = 'Faltam <span>${faltam}</span> vendas para o Madero!';
+      }
+
       // Horário
       const agora = new Date();
       const hora = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
