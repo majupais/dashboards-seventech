@@ -8,13 +8,62 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { width: 100%; height: 100%; background: #0b0d13; overflow: hidden; }
   iframe { width: 100vw; height: 100vh; border: none; display: block; }
-  .progress-bar { position: fixed; bottom: 0; left: 0; height: 3px; background: rgba(255,255,255,0.3); z-index: 999; }
+
+  .progress-bar {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: rgba(255,255,255,0.3);
+    z-index: 999;
+    transition: width 0.1s linear;
+  }
+
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.08);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    color: rgba(255,255,255,0.6);
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, opacity .2s;
+    opacity: 0;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.18); color: #fff; }
+  body:hover .nav-btn { opacity: 1; }
+
+  #btn-prev { left: 12px; }
+  #btn-next { right: 12px; }
+
+  .nav-label {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity .2s;
+    white-space: nowrap;
+  }
+  body:hover .nav-label { opacity: 1; }
 </style>
 </head>
 <body>
 
 <iframe id="frame" src="" allowfullscreen></iframe>
 <div class="progress-bar" id="progress"></div>
+
+<button class="nav-btn" id="btn-prev" title="Anterior">&#8592;</button>
+<button class="nav-btn" id="btn-next" title="Próximo">&#8594;</button>
+<div class="nav-label" id="nav-label">—</div>
 
 <script>
   const BASE = 'https://majupais.github.io/dashboards-seventech/';
@@ -34,17 +83,18 @@
 
   const frame    = document.getElementById('frame');
   const progress = document.getElementById('progress');
+  const navLabel = document.getElementById('nav-label');
 
   function mostrar(idx) {
-    atual = idx;
-    frame.src = BASE + dashboards[idx].file;
+    atual = (idx + dashboards.length) % dashboards.length;
+    frame.src = BASE + dashboards[atual].file;
+    navLabel.textContent = `${atual + 1} / ${dashboards.length} — ${dashboards[atual].label}`;
     inicio = performance.now();
     animarBarra();
   }
 
-  function proxima() {
-    mostrar((atual + 1) % dashboards.length);
-  }
+  function proxima()   { mostrar(atual + 1); }
+  function anterior()  { mostrar(atual - 1); }
 
   function animarBarra() {
     if (animFrame) cancelAnimationFrame(animFrame);
@@ -60,6 +110,15 @@
     }
     animFrame = requestAnimationFrame(tick);
   }
+
+  document.getElementById('btn-next').addEventListener('click', proxima);
+  document.getElementById('btn-prev').addEventListener('click', anterior);
+
+  // Suporte a teclado (setas)
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') proxima();
+    if (e.key === 'ArrowLeft')  anterior();
+  });
 
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') mostrar(atual);
