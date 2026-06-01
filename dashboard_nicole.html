@@ -30,14 +30,10 @@
   .status-dot { width:6px; height:6px; border-radius:50%; background:#4caf7d; display:inline-block; margin-right:4px; box-shadow:0 0 5px rgba(76,175,125,0.6); }
   .main { display:flex; flex-direction:column; justify-content:center; padding:20px 24px; gap:12px; height:100vh; overflow:hidden; }
   .section-label { font-size:8px; font-weight:500; letter-spacing:.1em; color:var(--hint); margin-bottom:6px; }
-  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
   .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
-
-  /* CARD BASE */
+  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
   .mcard { background:var(--surface); border:0.5px solid var(--border); border-radius:12px; padding:14px 16px; display:flex; flex-direction:column; gap:6px; position:relative; overflow:hidden; }
   .mcard::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
-
-  /* VENDAS — níveis */
   .mcard.bronze { background:rgba(220,160,20,0.07); border:1.5px solid var(--bronze-border); }
   .mcard.bronze::before { background:linear-gradient(90deg,transparent,var(--bronze-color),transparent); }
   .mcard.prata  { background:rgba(55,138,221,0.08); border:1.5px solid var(--prata-border); }
@@ -46,16 +42,12 @@
   .mcard.ouro::before   { background:linear-gradient(90deg,transparent,var(--ouro-color),transparent); }
   .mcard.platina{ background:rgba(200,200,220,0.08); border:1.5px solid var(--platina-border); }
   .mcard.platina::before{ background:linear-gradient(90deg,transparent,var(--platina-color),transparent); }
-
-  /* OK/FORA */
   .mcard.ok   { background:rgba(76,223,138,0.07); border:1.5px solid var(--ok-border); }
   .mcard.ok::before { background:linear-gradient(90deg,transparent,var(--ok-color),transparent); }
   .mcard.fora { border:0.5px solid rgba(240,128,128,0.15); opacity:0.72; }
-
-  .mlabel { font-size:8px; font-weight:500; letter-spacing:.07em; color:var(--muted); }
+  .mlabel { font-size:8px; font-weight:500; letter-spacing:.06em; color:var(--muted); line-height:1.3; }
   .mvalue { font-size:38px; font-weight:300; letter-spacing:-0.03em; line-height:1; font-family:'DM Mono',monospace; }
   .mcard.ok .mvalue, .mcard.bronze .mvalue, .mcard.prata .mvalue, .mcard.ouro .mvalue, .mcard.platina .mvalue { font-weight:400; }
-  .munit { font-size:14px; font-weight:300; color:var(--muted); margin-left:2px; font-family:'DM Sans',sans-serif; }
   .badge { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:500; padding:2px 9px; border-radius:20px; width:fit-content; }
   .badge::before { content:''; width:5px; height:5px; border-radius:50%; }
   .bronze-badge { background:var(--bronze-bg); color:var(--bronze-color); border:0.5px solid var(--bronze-border); }
@@ -70,9 +62,7 @@
   .ok-badge::before   { background:var(--ok-color); }
   .fora-badge { background:var(--fora-bg); color:var(--fora-color); border:0.5px solid var(--fora-border); }
   .fora-badge::before { background:var(--fora-color); }
-
   .meta-hint { font-size:9px; color:var(--hint); margin-top:2px; }
-
   .zbar-wrap { margin-top:auto; padding-top:8px; }
   .zbar { height:4px; border-radius:2px; display:flex; position:relative; margin-bottom:4px; }
   .zbar-inner { display:flex; width:100%; height:4px; border-radius:2px; overflow:hidden; }
@@ -85,7 +75,6 @@
   .zmarker { position:absolute; top:-4px; width:2px; height:12px; background:#fff; border-radius:1px; transform:translateX(-50%); box-shadow:0 0 4px rgba(255,255,255,0.35); }
   .zticks { display:flex; justify-content:space-between; }
   .ztick { font-size:8px; color:var(--hint); }
-
   @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
   @keyframes pulse-ok      { 0%,100%{ box-shadow:0 0 20px rgba(76,223,138,0.12); } 50%{ box-shadow:0 0 32px rgba(76,223,138,0.25); } }
   @keyframes pulse-bronze  { 0%,100%{ box-shadow:0 0 20px rgba(220,160,20,0.1);  } 50%{ box-shadow:0 0 32px rgba(220,160,20,0.22); } }
@@ -93,7 +82,6 @@
   @keyframes pulse-ouro    { 0%,100%{ box-shadow:0 0 20px rgba(255,215,0,0.12);  } 50%{ box-shadow:0 0 32px rgba(255,215,0,0.28); } }
   @keyframes pulse-platina { 0%,100%{ box-shadow:0 0 20px rgba(200,200,220,0.1); } 50%{ box-shadow:0 0 32px rgba(200,200,220,0.22); } }
   .sidebar { animation:fadeUp .35s ease both; }
-  .mcard { animation:fadeUp .35s ease both; }
   .mcard.ok      { animation:fadeUp .35s ease both, pulse-ok      3s ease-in-out 1s infinite; }
   .mcard.bronze  { animation:fadeUp .35s ease both, pulse-bronze  3s ease-in-out 1s infinite; }
   .mcard.prata   { animation:fadeUp .35s ease both, pulse-prata   3s ease-in-out 1s infinite; }
@@ -113,22 +101,21 @@
 
   <div class="main">
 
-    <!-- VENDAS (destaque) -->
     <div>
       <div class="section-label">VENDAS — JUNHO 2026</div>
-      <div style="display:grid; grid-template-columns:1fr 2fr; gap:10px;">
+      <div class="grid-2">
 
         <div class="mcard" id="card-vendas">
-          <div class="mlabel">VENDAS NO MÊS</div>
+          <div class="mlabel">QUANTIDADE DE VENDAS (MÊS)</div>
           <div class="mvalue" id="vendas-val">—</div>
           <div class="badge" id="vendas-badge">—</div>
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
                 <div class="z-empty"  style="width:33.3%"></div>
-                <div class="z-bronze" style="width:25%"></div>
-                <div class="z-prata"  style="width:16.7%"></div>
-                <div class="z-ouro"   style="width:8.3%"></div>
+                <div class="z-bronze" style="width:20%"></div>
+                <div class="z-prata"  style="width:13.3%"></div>
+                <div class="z-ouro"   style="width:6.7%"></div>
                 <div class="z-platina"style="flex:1"></div>
               </div>
               <div class="zmarker" id="vendas-marker" style="left:0%"></div>
@@ -143,16 +130,15 @@
           </div>
         </div>
 
-        <!-- INDICAÇÕES -->
         <div class="mcard" id="card-indic">
-          <div class="mlabel">INDICAÇÕES</div>
+          <div class="mlabel">QUANTIDADE DE INDICAÇÕES (MÊS)</div>
           <div class="mvalue" id="indic-val">—</div>
           <div class="badge" id="indic-badge">—</div>
           <div class="meta-hint">meta mensal: 20</div>
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
-                <div class="z-empty" style="width:60%"></div>
+                <div class="z-empty" style="width:58.8%"></div>
                 <div class="z-ok"    style="flex:1"></div>
               </div>
               <div class="zmarker" id="indic-marker" style="left:0%"></div>
@@ -168,16 +154,15 @@
       </div>
     </div>
 
-    <!-- ATIVIDADES -->
     <div>
       <div class="section-label">ATIVIDADES — JUNHO 2026</div>
-      <div class="grid-3">
+      <div class="grid-4">
 
         <div class="mcard" id="card-lig">
-          <div class="mlabel">LIGAÇÕES / WHATS FEITOS</div>
+          <div class="mlabel">MÉDIA DE CONTATOS FEITOS</div>
           <div class="mvalue" id="lig-val">—</div>
           <div class="badge" id="lig-badge">—</div>
-          <div class="meta-hint">meta mensal: 1.000</div>
+          <div class="meta-hint">meta: 1.000</div>
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
@@ -188,17 +173,17 @@
             </div>
             <div class="zticks">
               <span class="ztick">0</span>
-              <span class="ztick">meta 1.000</span>
+              <span class="ztick">1.000</span>
               <span class="ztick">2.000</span>
             </div>
           </div>
         </div>
 
         <div class="mcard" id="card-resp">
-          <div class="mlabel">CONTATOS RESPONDIDOS</div>
+          <div class="mlabel">MÉDIA DE CONTATOS ATENDIDOS/RESPONDIDOS</div>
           <div class="mvalue" id="resp-val">—</div>
           <div class="badge" id="resp-badge">—</div>
-          <div class="meta-hint">meta mensal: 200</div>
+          <div class="meta-hint">meta: 200</div>
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
@@ -209,17 +194,17 @@
             </div>
             <div class="zticks">
               <span class="ztick">0</span>
-              <span class="ztick">meta 200</span>
+              <span class="ztick">200</span>
               <span class="ztick">400</span>
             </div>
           </div>
         </div>
 
         <div class="mcard" id="card-age">
-          <div class="mlabel">AGENDAMENTOS</div>
+          <div class="mlabel">QUANTIDADE DE AGENDAMENTOS (MÊS)</div>
           <div class="mvalue" id="age-val">—</div>
           <div class="badge" id="age-badge">—</div>
-          <div class="meta-hint">meta mensal: 40</div>
+          <div class="meta-hint">meta: 40</div>
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
@@ -230,17 +215,17 @@
             </div>
             <div class="zticks">
               <span class="ztick">0</span>
-              <span class="ztick">meta 40</span>
+              <span class="ztick">40</span>
               <span class="ztick">80</span>
             </div>
           </div>
         </div>
 
         <div class="mcard" id="card-reun">
-          <div class="mlabel">REUNIÕES REALIZADAS</div>
+          <div class="mlabel">QUANTIDADE DE REUNIÕES REALIZADAS (MÊS)</div>
           <div class="mvalue" id="reun-val">—</div>
           <div class="badge" id="reun-badge">—</div>
-          <div class="meta-hint">meta mensal: 20</div>
+          <div class="meta-hint">meta: 20</div>
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
@@ -251,17 +236,10 @@
             </div>
             <div class="zticks">
               <span class="ztick">0</span>
-              <span class="ztick">meta 20</span>
+              <span class="ztick">20</span>
               <span class="ztick">40</span>
             </div>
           </div>
-        </div>
-
-        <div class="mcard fora" id="card-placeholder" style="opacity:0.15; pointer-events:none;">
-          <div class="mlabel">&nbsp;</div>
-        </div>
-        <div class="mcard fora" id="card-placeholder2" style="opacity:0.15; pointer-events:none;">
-          <div class="mlabel">&nbsp;</div>
         </div>
 
       </div>
@@ -287,37 +265,33 @@
     if (v >= 5)  return 'bronze';
     return 'fora';
   }
-  function labelVendas(n) {
-    return {platina:'Platina', ouro:'Ouro', prata:'Prata', bronze:'Bronze', fora:'Fora da meta'}[n];
-  }
-  function corVendas(n) {
-    return {platina:'var(--platina-color)', ouro:'var(--ouro-color)', prata:'var(--prata-color)', bronze:'var(--bronze-color)', fora:'var(--fora-color)'}[n];
-  }
+  function labelVendas(n) { return {platina:'Platina',ouro:'Ouro',prata:'Prata',bronze:'Bronze',fora:'Fora da meta'}[n]; }
+  function corVendas(n)   { return {platina:'var(--platina-color)',ouro:'var(--ouro-color)',prata:'var(--prata-color)',bronze:'var(--bronze-color)',fora:'var(--fora-color)'}[n]; }
 
   function applyOkFora(prefix, valor, meta, maxBarra) {
     const ok = valor >= meta;
-    const card = document.getElementById('card-' + prefix);
-    card.className = 'mcard ' + (ok ? 'ok' : 'fora');
+    document.getElementById('card-' + prefix).className = 'mcard ' + (ok ? 'ok' : 'fora');
     const valEl = document.getElementById(prefix + '-val');
     valEl.style.color = ok ? 'var(--ok-color)' : 'var(--fora-color)';
     valEl.textContent = valor.toLocaleString('pt-BR');
     const badge = document.getElementById(prefix + '-badge');
     badge.className = 'badge ' + (ok ? 'ok' : 'fora') + '-badge';
     badge.textContent = ok ? 'Na meta' : 'Fora da meta';
-    const pct = Math.min(Math.max((valor / maxBarra) * 100, 0.5), 99).toFixed(1);
-    document.getElementById(prefix + '-marker').style.left = pct + '%';
+    document.getElementById(prefix + '-marker').style.left =
+      Math.min(Math.max((valor / maxBarra) * 100, 0.5), 99).toFixed(1) + '%';
   }
 
   async function fetchDados() {
     const label = document.getElementById('period-label');
     try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=C2:C7&headers=0`;
+      // Dados na coluna B (B2:B7)
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=B2:B7&headers=0`;
       const res  = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
       const rows = json.table.rows;
 
-      // C2=ligações feitas, C3=respondidos, C4=agendamentos, C5=reuniões, C6=vendas, C7=indicações
+      // B2=contatos feitos, B3=respondidos, B4=agendamentos, B5=reuniões, B6=vendas, B7=indicações
       const lig    = toNum(rows[0]?.c[0]?.v);
       const resp   = toNum(rows[1]?.c[0]?.v);
       const age    = toNum(rows[2]?.c[0]?.v);
@@ -325,22 +299,17 @@
       const vendas = toNum(rows[4]?.c[0]?.v);
       const indic  = toNum(rows[5]?.c[0]?.v);
 
-      console.log('lig:', lig, 'resp:', resp, 'age:', age, 'reun:', reun, 'vendas:', vendas, 'indic:', indic);
-
-      // Vendas com níveis
       const nv = nivelVendas(vendas);
-      const cardV = document.getElementById('card-vendas');
-      cardV.className = 'mcard ' + nv;
+      document.getElementById('card-vendas').className = 'mcard ' + nv;
       const valV = document.getElementById('vendas-val');
       valV.style.color = corVendas(nv);
       valV.textContent = vendas;
       const badgeV = document.getElementById('vendas-badge');
       badgeV.className = 'badge ' + nv + '-badge';
       badgeV.textContent = labelVendas(nv);
-      const pctV = Math.min(Math.max((vendas / 15) * 100, 0.5), 99).toFixed(1);
-      document.getElementById('vendas-marker').style.left = pctV + '%';
+      document.getElementById('vendas-marker').style.left =
+        Math.min(Math.max((vendas / 15) * 100, 0.5), 99).toFixed(1) + '%';
 
-      // Demais métricas
       applyOkFora('lig',   lig,   1000, 2000);
       applyOkFora('resp',  resp,  200,  400);
       applyOkFora('age',   age,   40,   80);
