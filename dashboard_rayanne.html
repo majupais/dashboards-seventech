@@ -75,8 +75,8 @@
   .r-ouro { background:rgba(255,215,0,0.55); }
   .r-platina { background:rgba(200,200,220,0.55); }
   .r-marker { position:absolute; top:-4px; width:3px; height:22px; background:#fff; border-radius:2px; transform:translateX(-50%); box-shadow:0 0 6px rgba(255,255,255,0.5); }
-  .range-ticks { display:flex; justify-content:space-between; }
-  .rtick { font-size:11px; color:var(--hint); text-align:center; }
+  .range-ticks { position:relative; height:38px; margin-top:10px; }
+  .rtick { position:absolute; transform:translateX(-50%); font-size:11px; color:var(--hint); text-align:center; white-space:nowrap; }
   .rtick strong { display:block; font-size:13px; color:var(--muted); font-weight:500; }
 
   @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
@@ -120,11 +120,11 @@
         <div class="r-marker" id="range-marker" style="left:0%"></div>
       </div>
       <div class="range-ticks">
-        <span class="rtick">0</span>
-        <span class="rtick"><strong>Bronze</strong>5</span>
-        <span class="rtick"><strong>Prata</strong>8</span>
-        <span class="rtick"><strong>Ouro</strong>10</span>
-        <span class="rtick"><strong>Platina</strong>12+</span>
+        <span class="rtick" style="left:0%">0</span>
+        <span class="rtick" style="left:33.3%"><strong>Bronze</strong>5</span>
+        <span class="rtick" style="left:53.3%"><strong>Prata</strong>8</span>
+        <span class="rtick" style="left:66.7%"><strong>Ouro</strong>10</span>
+        <span class="rtick" style="left:80%"><strong>Platina</strong>12+</span>
       </div>
     </div>
   </div>
