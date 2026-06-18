@@ -4,89 +4,93 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — Rayanne</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #0b0d13; --surface: #13161f;
     --border: rgba(255,255,255,0.06);
-    --muted: rgba(255,255,255,0.35); --hint: rgba(255,255,255,0.18);
-    --prata-color: #7ab8f5; --prata-bg: rgba(55,138,221,0.14); --prata-border: rgba(55,138,221,0.5);
-    --bronze-color: #f5c842; --bronze-bg: rgba(220,160,20,0.14); --bronze-border: rgba(220,160,20,0.5);
-    --ouro-color: #FFD700; --ouro-bg: rgba(255,215,0,0.14); --ouro-border: rgba(255,215,0,0.5);
-    --platina-color: #e8e8f0; --platina-bg: rgba(200,200,220,0.14); --platina-border: rgba(200,200,220,0.5);
-    --ok-color: #4cdf8a; --ok-bg: rgba(76,223,138,0.12); --ok-border: rgba(76,223,138,0.45);
-    --fora-color: #f08080; --fora-bg: rgba(220,70,70,0.12); --fora-border: rgba(220,70,70,0.22);
-    --ok-zone: rgba(76,223,138,0.4); --empty-zone: rgba(255,255,255,0.06);
+    --muted: rgba(255,255,255,0.4); --hint: rgba(255,255,255,0.2);
+    --bronze-color: #f5c842; --bronze-border: rgba(220,160,20,0.5);
+    --prata-color: #7ab8f5; --prata-border: rgba(55,138,221,0.5);
+    --ouro-color: #FFD700; --ouro-border: rgba(255,215,0,0.5);
+    --platina-color: #e8e8f0; --platina-border: rgba(200,200,220,0.5);
+    --fora-color: #f08080; --fora-border: rgba(220,70,70,0.3);
   }
   html, body { width:100%; height:100%; margin:0; padding:0; background:var(--bg); font-family:'DM Sans',sans-serif; color:#f0f0f0; -webkit-font-smoothing:antialiased; overflow:hidden; }
-  .layout { display:grid; grid-template-columns:200px 1fr; width:100vw; height:100vh; }
-  .sidebar { background:var(--surface); border-right:0.5px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 20px; gap:14px; }
-  .avatar { width:120px; height:120px; border-radius:50%; object-fit:cover; border:3px solid rgba(255,255,255,0.1); flex-shrink:0; }
-  .sidebar-name { font-size:19px; font-weight:500; letter-spacing:-0.02em; text-align:center; }
-  .sidebar-role { font-size:11px; color:var(--muted); text-align:center; line-height:1.5; }
-  .sidebar-divider { width:28px; height:0.5px; background:var(--border); }
-  .sidebar-period { font-size:10px; color:var(--hint); text-align:center; line-height:1.8; }
-  .status-dot { width:6px; height:6px; border-radius:50%; background:#4caf7d; display:inline-block; margin-right:4px; box-shadow:0 0 5px rgba(76,175,125,0.6); }
-  .main { display:flex; flex-direction:column; justify-content:center; padding:20px 24px; gap:12px; height:100vh; overflow:hidden; }
-  .section-label { font-size:8px; font-weight:500; letter-spacing:.1em; color:var(--hint); margin-bottom:6px; }
-  .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
-  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-  .mcard { background:var(--surface); border:0.5px solid var(--border); border-radius:12px; padding:14px 16px; display:flex; flex-direction:column; gap:6px; position:relative; overflow:hidden; }
-  .mcard::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
-  .mcard.bronze { background:rgba(220,160,20,0.07); border:1.5px solid var(--bronze-border); }
-  .mcard.bronze::before { background:linear-gradient(90deg,transparent,var(--bronze-color),transparent); }
-  .mcard.prata  { background:rgba(55,138,221,0.08); border:1.5px solid var(--prata-border); }
-  .mcard.prata::before  { background:linear-gradient(90deg,transparent,var(--prata-color),transparent); }
-  .mcard.ouro   { background:rgba(255,215,0,0.08); border:1.5px solid var(--ouro-border); }
-  .mcard.ouro::before   { background:linear-gradient(90deg,transparent,var(--ouro-color),transparent); }
-  .mcard.platina{ background:rgba(200,200,220,0.08); border:1.5px solid var(--platina-border); }
-  .mcard.platina::before{ background:linear-gradient(90deg,transparent,var(--platina-color),transparent); }
-  .mcard.ok   { background:rgba(76,223,138,0.07); border:1.5px solid var(--ok-border); }
-  .mcard.ok::before { background:linear-gradient(90deg,transparent,var(--ok-color),transparent); }
-  .mcard.fora { border:0.5px solid rgba(240,128,128,0.15); opacity:0.72; }
-  .mlabel { font-size:8px; font-weight:500; letter-spacing:.06em; color:var(--muted); line-height:1.3; }
-  .mvalue { font-size:38px; font-weight:300; letter-spacing:-0.03em; line-height:1; font-family:'DM Mono',monospace; }
-  .mcard.ok .mvalue, .mcard.bronze .mvalue, .mcard.prata .mvalue, .mcard.ouro .mvalue, .mcard.platina .mvalue { font-weight:400; }
-  .badge { display:inline-flex; align-items:center; gap:4px; font-size:10px; font-weight:500; padding:2px 9px; border-radius:20px; width:fit-content; }
-  .badge::before { content:''; width:5px; height:5px; border-radius:50%; }
-  .bronze-badge { background:var(--bronze-bg); color:var(--bronze-color); border:0.5px solid var(--bronze-border); }
-  .bronze-badge::before { background:var(--bronze-color); }
-  .prata-badge  { background:var(--prata-bg);  color:var(--prata-color);  border:0.5px solid var(--prata-border); }
-  .prata-badge::before  { background:var(--prata-color); }
-  .ouro-badge   { background:var(--ouro-bg);   color:var(--ouro-color);   border:0.5px solid var(--ouro-border); }
-  .ouro-badge::before   { background:var(--ouro-color); }
-  .platina-badge{ background:var(--platina-bg);color:var(--platina-color);border:0.5px solid var(--platina-border); }
-  .platina-badge::before{ background:var(--platina-color); }
-  .ok-badge   { background:var(--ok-bg);   color:var(--ok-color);   border:0.5px solid var(--ok-border); }
-  .ok-badge::before   { background:var(--ok-color); }
-  .fora-badge { background:var(--fora-bg); color:var(--fora-color); border:0.5px solid var(--fora-border); }
-  .fora-badge::before { background:var(--fora-color); }
-  .meta-hint { font-size:9px; color:var(--hint); margin-top:2px; }
-  .zbar-wrap { margin-top:auto; padding-top:8px; }
-  .zbar { height:4px; border-radius:2px; display:flex; position:relative; margin-bottom:4px; }
-  .zbar-inner { display:flex; width:100%; height:4px; border-radius:2px; overflow:hidden; }
-  .z-ok    { background:var(--ok-zone); }
-  .z-bronze{ background:rgba(220,160,20,0.38); }
-  .z-prata { background:rgba(55,138,221,0.45); }
-  .z-ouro  { background:rgba(255,215,0,0.5); }
-  .z-platina{ background:rgba(200,200,220,0.5); }
-  .z-empty { background:var(--empty-zone); }
-  .zmarker { position:absolute; top:-4px; width:2px; height:12px; background:#fff; border-radius:1px; transform:translateX(-50%); box-shadow:0 0 4px rgba(255,255,255,0.35); }
-  .zticks { display:flex; justify-content:space-between; }
-  .ztick { font-size:8px; color:var(--hint); }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
-  @keyframes pulse-ok      { 0%,100%{ box-shadow:0 0 20px rgba(76,223,138,0.12); } 50%{ box-shadow:0 0 32px rgba(76,223,138,0.25); } }
-  @keyframes pulse-bronze  { 0%,100%{ box-shadow:0 0 20px rgba(220,160,20,0.1);  } 50%{ box-shadow:0 0 32px rgba(220,160,20,0.22); } }
-  @keyframes pulse-prata   { 0%,100%{ box-shadow:0 0 20px rgba(55,138,221,0.1);  } 50%{ box-shadow:0 0 32px rgba(55,138,221,0.22); } }
-  @keyframes pulse-ouro    { 0%,100%{ box-shadow:0 0 20px rgba(255,215,0,0.12);  } 50%{ box-shadow:0 0 32px rgba(255,215,0,0.28); } }
-  @keyframes pulse-platina { 0%,100%{ box-shadow:0 0 20px rgba(200,200,220,0.1); } 50%{ box-shadow:0 0 32px rgba(200,200,220,0.22); } }
-  .sidebar { animation:fadeUp .35s ease both; }
-  .mcard.ok      { animation:fadeUp .35s ease both, pulse-ok      3s ease-in-out 1s infinite; }
-  .mcard.bronze  { animation:fadeUp .35s ease both, pulse-bronze  3s ease-in-out 1s infinite; }
-  .mcard.prata   { animation:fadeUp .35s ease both, pulse-prata   3s ease-in-out 1s infinite; }
-  .mcard.ouro    { animation:fadeUp .35s ease both, pulse-ouro    3s ease-in-out 1s infinite; }
-  .mcard.platina { animation:fadeUp .35s ease both, pulse-platina 3s ease-in-out 1s infinite; }
+  .layout { display:grid; grid-template-columns:240px 1fr; width:100vw; height:100vh; }
+  .sidebar { background:var(--surface); border-right:0.5px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px 24px; gap:18px; }
+  .avatar { width:150px; height:150px; border-radius:50%; object-fit:cover; border:3px solid rgba(255,255,255,0.1); flex-shrink:0; }
+  .sidebar-name { font-size:24px; font-weight:500; letter-spacing:-0.02em; text-align:center; }
+  .sidebar-role { font-size:12px; color:var(--muted); text-align:center; line-height:1.5; }
+  .sidebar-divider { width:32px; height:0.5px; background:var(--border); }
+  .sidebar-period { font-size:11px; color:var(--hint); text-align:center; line-height:1.8; }
+  .status-dot { width:7px; height:7px; border-radius:50%; background:#4caf7d; display:inline-block; margin-right:5px; box-shadow:0 0 6px rgba(76,175,125,0.6); }
+
+  .main { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px; gap:36px; height:100vh; }
+
+  .vendas-card {
+    background:var(--surface);
+    border:1.5px solid var(--border);
+    border-radius:24px;
+    padding:48px 80px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    min-width:560px;
+  }
+  .vendas-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .vendas-card.bronze { border-color:var(--bronze-border); background:rgba(220,160,20,0.06); }
+  .vendas-card.bronze::before { background:linear-gradient(90deg,transparent,var(--bronze-color),transparent); }
+  .vendas-card.prata { border-color:var(--prata-border); background:rgba(55,138,221,0.06); }
+  .vendas-card.prata::before { background:linear-gradient(90deg,transparent,var(--prata-color),transparent); }
+  .vendas-card.ouro { border-color:var(--ouro-border); background:rgba(255,215,0,0.06); }
+  .vendas-card.ouro::before { background:linear-gradient(90deg,transparent,var(--ouro-color),transparent); }
+  .vendas-card.platina { border-color:var(--platina-border); background:rgba(200,200,220,0.06); }
+  .vendas-card.platina::before { background:linear-gradient(90deg,transparent,var(--platina-color),transparent); }
+  .vendas-card.fora { border-color:var(--fora-border); }
+
+  .vendas-label { font-size:13px; font-weight:500; letter-spacing:.12em; color:var(--muted); margin-bottom:12px; }
+  .vendas-value { font-size:140px; font-weight:700; letter-spacing:-0.04em; line-height:1; font-family:'DM Mono',monospace; }
+  .vendas-sub { font-size:16px; color:var(--muted); margin-top:4px; }
+  .medal-badge { display:inline-flex; align-items:center; gap:8px; font-size:18px; font-weight:500; padding:8px 22px; border-radius:30px; margin-top:24px; }
+  .medal-badge::before { content:''; width:9px; height:9px; border-radius:50%; }
+  .bronze-b { background:rgba(220,160,20,0.14); color:var(--bronze-color); border:0.5px solid var(--bronze-border); }
+  .bronze-b::before { background:var(--bronze-color); }
+  .prata-b { background:rgba(55,138,221,0.14); color:var(--prata-color); border:0.5px solid var(--prata-border); }
+  .prata-b::before { background:var(--prata-color); }
+  .ouro-b { background:rgba(255,215,0,0.14); color:var(--ouro-color); border:0.5px solid var(--ouro-border); }
+  .ouro-b::before { background:var(--ouro-color); }
+  .platina-b { background:rgba(200,200,220,0.14); color:var(--platina-color); border:0.5px solid var(--platina-border); }
+  .platina-b::before { background:var(--platina-color); }
+  .fora-b { background:rgba(220,70,70,0.12); color:var(--fora-color); border:0.5px solid var(--fora-border); }
+  .fora-b::before { background:var(--fora-color); }
+
+  /* RANGE BAR */
+  .range-section { width:100%; max-width:680px; }
+  .range-track { width:100%; height:14px; border-radius:7px; display:flex; overflow:hidden; position:relative; margin-bottom:10px; }
+  .r-empty { background:rgba(255,255,255,0.06); }
+  .r-bronze { background:rgba(220,160,20,0.45); }
+  .r-prata { background:rgba(55,138,221,0.5); }
+  .r-ouro { background:rgba(255,215,0,0.55); }
+  .r-platina { background:rgba(200,200,220,0.55); }
+  .r-marker { position:absolute; top:-4px; width:3px; height:22px; background:#fff; border-radius:2px; transform:translateX(-50%); box-shadow:0 0 6px rgba(255,255,255,0.5); }
+  .range-ticks { display:flex; justify-content:space-between; }
+  .rtick { font-size:11px; color:var(--hint); text-align:center; }
+  .rtick strong { display:block; font-size:13px; color:var(--muted); font-weight:500; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes pulse-bronze { 0%,100%{ box-shadow:0 0 40px rgba(220,160,20,0.1); } 50%{ box-shadow:0 0 70px rgba(220,160,20,0.22); } }
+  @keyframes pulse-prata { 0%,100%{ box-shadow:0 0 40px rgba(55,138,221,0.1); } 50%{ box-shadow:0 0 70px rgba(55,138,221,0.22); } }
+  @keyframes pulse-ouro { 0%,100%{ box-shadow:0 0 40px rgba(255,215,0,0.12); } 50%{ box-shadow:0 0 70px rgba(255,215,0,0.28); } }
+  @keyframes pulse-platina { 0%,100%{ box-shadow:0 0 40px rgba(200,200,220,0.1); } 50%{ box-shadow:0 0 70px rgba(200,200,220,0.22); } }
+  .sidebar { animation:fadeUp .4s ease both; }
+  .vendas-card { animation:fadeUp .4s ease .1s both; }
+  .vendas-card.bronze { animation:fadeUp .4s ease .1s both, pulse-bronze 3s ease-in-out 1s infinite; }
+  .vendas-card.prata { animation:fadeUp .4s ease .1s both, pulse-prata 3s ease-in-out 1s infinite; }
+  .vendas-card.ouro { animation:fadeUp .4s ease .1s both, pulse-ouro 3s ease-in-out 1s infinite; }
+  .vendas-card.platina { animation:fadeUp .4s ease .1s both, pulse-platina 3s ease-in-out 1s infinite; }
+  .range-section { animation:fadeUp .4s ease .2s both; }
 </style>
 </head>
 <body>
@@ -100,221 +104,68 @@
   </div>
 
   <div class="main">
-
-    <div>
-      <div class="section-label">VENDAS — JUNHO 2026</div>
-      <div class="grid-2">
-
-        <div class="mcard" id="card-vendas">
-          <div class="mlabel">QUANTIDADE DE VENDAS (MÊS)</div>
-          <div class="mvalue" id="vendas-val">—</div>
-          <div class="badge" id="vendas-badge">—</div>
-          <div class="zbar-wrap">
-            <div class="zbar">
-              <div class="zbar-inner">
-                <div class="z-empty"  style="width:33.3%"></div>
-                <div class="z-bronze" style="width:20%"></div>
-                <div class="z-prata"  style="width:13.3%"></div>
-                <div class="z-ouro"   style="width:6.7%"></div>
-                <div class="z-platina"style="flex:1"></div>
-              </div>
-              <div class="zmarker" id="vendas-marker" style="left:0%"></div>
-            </div>
-            <div class="zticks">
-              <span class="ztick">0</span>
-              <span class="ztick">5 bronze</span>
-              <span class="ztick">8 prata</span>
-              <span class="ztick">10 ouro</span>
-              <span class="ztick">12+ platina</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mcard" id="card-indic">
-          <div class="mlabel">QUANTIDADE DE INDICAÇÕES (MÊS)</div>
-          <div class="mvalue" id="indic-val">—</div>
-          <div class="badge" id="indic-badge">—</div>
-          <div class="meta-hint">meta mensal: 20</div>
-          <div class="zbar-wrap">
-            <div class="zbar">
-              <div class="zbar-inner">
-                <div class="z-empty" style="width:58.8%"></div>
-                <div class="z-ok"    style="flex:1"></div>
-              </div>
-              <div class="zmarker" id="indic-marker" style="left:0%"></div>
-            </div>
-            <div class="zticks">
-              <span class="ztick">0</span>
-              <span class="ztick">meta 20</span>
-              <span class="ztick">34</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
+    <div class="vendas-card fora" id="vendas-card">
+      <div class="vendas-label">VENDAS NO MÊS</div>
+      <div class="vendas-value" id="vendas-val">—</div>
+      <div class="medal-badge fora-b" id="medal-badge">—</div>
     </div>
 
-    <div>
-      <div class="section-label">ATIVIDADES — JUNHO 2026</div>
-      <div class="grid-4">
-
-        <div class="mcard" id="card-lig">
-          <div class="mlabel">MÉDIA DE CONTATOS FEITOS</div>
-          <div class="mvalue" id="lig-val">—</div>
-          <div class="badge" id="lig-badge">—</div>
-          <div class="meta-hint">meta: 1.000</div>
-          <div class="zbar-wrap">
-            <div class="zbar">
-              <div class="zbar-inner">
-                <div class="z-empty" style="width:50%"></div>
-                <div class="z-ok"    style="flex:1"></div>
-              </div>
-              <div class="zmarker" id="lig-marker" style="left:0%"></div>
-            </div>
-            <div class="zticks">
-              <span class="ztick">0</span>
-              <span class="ztick">1.000</span>
-              <span class="ztick">2.000</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mcard" id="card-resp">
-          <div class="mlabel">MÉDIA DE CONTATOS ATENDIDOS/RESPONDIDOS</div>
-          <div class="mvalue" id="resp-val">—</div>
-          <div class="badge" id="resp-badge">—</div>
-          <div class="meta-hint">meta: 200</div>
-          <div class="zbar-wrap">
-            <div class="zbar">
-              <div class="zbar-inner">
-                <div class="z-empty" style="width:50%"></div>
-                <div class="z-ok"    style="flex:1"></div>
-              </div>
-              <div class="zmarker" id="resp-marker" style="left:0%"></div>
-            </div>
-            <div class="zticks">
-              <span class="ztick">0</span>
-              <span class="ztick">200</span>
-              <span class="ztick">400</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mcard" id="card-age">
-          <div class="mlabel">QUANTIDADE DE AGENDAMENTOS (MÊS)</div>
-          <div class="mvalue" id="age-val">—</div>
-          <div class="badge" id="age-badge">—</div>
-          <div class="meta-hint">meta: 40</div>
-          <div class="zbar-wrap">
-            <div class="zbar">
-              <div class="zbar-inner">
-                <div class="z-empty" style="width:50%"></div>
-                <div class="z-ok"    style="flex:1"></div>
-              </div>
-              <div class="zmarker" id="age-marker" style="left:0%"></div>
-            </div>
-            <div class="zticks">
-              <span class="ztick">0</span>
-              <span class="ztick">40</span>
-              <span class="ztick">80</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mcard" id="card-reun">
-          <div class="mlabel">QUANTIDADE DE REUNIÕES REALIZADAS (MÊS)</div>
-          <div class="mvalue" id="reun-val">—</div>
-          <div class="badge" id="reun-badge">—</div>
-          <div class="meta-hint">meta: 20</div>
-          <div class="zbar-wrap">
-            <div class="zbar">
-              <div class="zbar-inner">
-                <div class="z-empty" style="width:50%"></div>
-                <div class="z-ok"    style="flex:1"></div>
-              </div>
-              <div class="zmarker" id="reun-marker" style="left:0%"></div>
-            </div>
-            <div class="zticks">
-              <span class="ztick">0</span>
-              <span class="ztick">20</span>
-              <span class="ztick">40</span>
-            </div>
-          </div>
-        </div>
-
+    <div class="range-section">
+      <div class="range-track">
+        <div class="r-empty"   style="width:33.3%"></div>
+        <div class="r-bronze"  style="width:20%"></div>
+        <div class="r-prata"   style="width:13.3%"></div>
+        <div class="r-ouro"    style="width:6.7%"></div>
+        <div class="r-platina" style="flex:1"></div>
+        <div class="r-marker" id="range-marker" style="left:0%"></div>
+      </div>
+      <div class="range-ticks">
+        <span class="rtick">0</span>
+        <span class="rtick"><strong>Bronze</strong>5</span>
+        <span class="rtick"><strong>Prata</strong>8</span>
+        <span class="rtick"><strong>Ouro</strong>10</span>
+        <span class="rtick"><strong>Platina</strong>12+</span>
       </div>
     </div>
-
   </div>
 </div>
 
 <script>
   const SHEET_ID   = "1_IwXgibR1io9ap79FukA3Ofm-hbrblghcY_XZFRENS4";
-  const SHEET_NAME = "Rayanne";
+  const SHEET_NAME = "Aquisição";
+  const CELL_RANGE = "B4:B4";
 
-  function toNum(v) {
-    if (v === null || v === undefined) return 0;
-    if (typeof v === 'number') return v;
-    return parseFloat(String(v).replace('%','').replace(',','.')) || 0;
-  }
-
-  function nivelVendas(v) {
+  function nivel(v) {
     if (v >= 12) return 'platina';
     if (v >= 10) return 'ouro';
     if (v >= 8)  return 'prata';
     if (v >= 5)  return 'bronze';
     return 'fora';
   }
-  function labelVendas(n) { return {platina:'Platina',ouro:'Ouro',prata:'Prata',bronze:'Bronze',fora:'Fora da meta'}[n]; }
-  function corVendas(n)   { return {platina:'var(--platina-color)',ouro:'var(--ouro-color)',prata:'var(--prata-color)',bronze:'var(--bronze-color)',fora:'var(--fora-color)'}[n]; }
-
-  function applyOkFora(prefix, valor, meta, maxBarra) {
-    const ok = valor >= meta;
-    document.getElementById('card-' + prefix).className = 'mcard ' + (ok ? 'ok' : 'fora');
-    const valEl = document.getElementById(prefix + '-val');
-    valEl.style.color = ok ? 'var(--ok-color)' : 'var(--fora-color)';
-    valEl.textContent = valor.toLocaleString('pt-BR');
-    const badge = document.getElementById(prefix + '-badge');
-    badge.className = 'badge ' + (ok ? 'ok' : 'fora') + '-badge';
-    badge.textContent = ok ? 'Na meta' : 'Fora da meta';
-    document.getElementById(prefix + '-marker').style.left =
-      Math.min(Math.max((valor / maxBarra) * 100, 0.5), 99).toFixed(1) + '%';
-  }
+  function labelNivel(n) { return {platina:'Platina',ouro:'Ouro',prata:'Prata',bronze:'Bronze',fora:'Em progresso'}[n]; }
+  function corNivel(n)   { return {platina:'var(--platina-color)',ouro:'var(--ouro-color)',prata:'var(--prata-color)',bronze:'var(--bronze-color)',fora:'var(--fora-color)'}[n]; }
 
   async function fetchDados() {
     const label = document.getElementById('period-label');
     try {
-      // Dados na coluna B (B2:B7)
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=B2:B7&headers=0`;
+      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=${CELL_RANGE}&headers=0`;
       const res  = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
-      const rows = json.table.rows;
+      const vendas = Math.max(0, parseInt(json.table.rows[0]?.c[0]?.v ?? 0));
 
-      // B2=contatos feitos, B3=respondidos, B4=agendamentos, B5=reuniões, B6=vendas, B7=indicações
-      const lig    = toNum(rows[0]?.c[0]?.v);
-      const resp   = toNum(rows[1]?.c[0]?.v);
-      const age    = toNum(rows[2]?.c[0]?.v);
-      const reun   = toNum(rows[3]?.c[0]?.v);
-      const vendas = toNum(rows[4]?.c[0]?.v);
-      const indic  = toNum(rows[5]?.c[0]?.v);
+      const nv = nivel(vendas);
+      document.getElementById('vendas-card').className = 'vendas-card ' + nv;
+      const valEl = document.getElementById('vendas-val');
+      valEl.style.color = corNivel(nv);
+      valEl.textContent = vendas;
+      const badge = document.getElementById('medal-badge');
+      badge.className = 'medal-badge ' + nv + '-b';
+      badge.textContent = labelNivel(nv);
 
-      const nv = nivelVendas(vendas);
-      document.getElementById('card-vendas').className = 'mcard ' + nv;
-      const valV = document.getElementById('vendas-val');
-      valV.style.color = corVendas(nv);
-      valV.textContent = vendas;
-      const badgeV = document.getElementById('vendas-badge');
-      badgeV.className = 'badge ' + nv + '-badge';
-      badgeV.textContent = labelVendas(nv);
-      document.getElementById('vendas-marker').style.left =
-        Math.min(Math.max((vendas / 15) * 100, 0.5), 99).toFixed(1) + '%';
-
-      applyOkFora('lig',   lig,   1000, 2000);
-      applyOkFora('resp',  resp,  200,  400);
-      applyOkFora('age',   age,   40,   80);
-      applyOkFora('reun',  reun,  20,   40);
-      applyOkFora('indic', indic, 20,   34);
+      // marcador na barra (escala 0-15)
+      const pct = Math.min(Math.max((vendas / 15) * 100, 0.5), 99).toFixed(1);
+      document.getElementById('range-marker').style.left = pct + '%';
 
       const agora = new Date();
       const hora  = agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
