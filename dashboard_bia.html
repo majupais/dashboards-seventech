@@ -8,23 +8,13 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #0b0d13;
-    --surface: #13161f;
+    --bg: #0b0d13; --surface: #13161f;
     --border: rgba(255,255,255,0.06);
-    --muted: rgba(255,255,255,0.35);
-    --hint: rgba(255,255,255,0.18);
-    --prata-color: #7ab8f5;
-    --prata-bg: rgba(55,138,221,0.14);
-    --prata-border: rgba(55,138,221,0.5);
-    --bronze-color: #f5c842;
-    --bronze-bg: rgba(220,160,20,0.14);
-    --bronze-border: rgba(220,160,20,0.5);
-    --fora-color: #f08080;
-    --fora-bg: rgba(220,70,70,0.12);
-    --fora-border: rgba(220,70,70,0.22);
-    --prata-zone: rgba(55,138,221,0.45);
-    --bronze-zone: rgba(220,160,20,0.38);
-    --empty-zone: rgba(255,255,255,0.06);
+    --muted: rgba(255,255,255,0.35); --hint: rgba(255,255,255,0.18);
+    --prata-color: #7ab8f5; --prata-bg: rgba(55,138,221,0.14); --prata-border: rgba(55,138,221,0.5);
+    --bronze-color: #f5c842; --bronze-bg: rgba(220,160,20,0.14); --bronze-border: rgba(220,160,20,0.5);
+    --fora-color: #f08080; --fora-bg: rgba(220,70,70,0.12); --fora-border: rgba(220,70,70,0.22);
+    --prata-zone: rgba(55,138,221,0.45); --bronze-zone: rgba(220,160,20,0.38); --empty-zone: rgba(255,255,255,0.06);
   }
   html, body { width:100%; height:100%; margin:0; padding:0; background:var(--bg); font-family:'DM Sans',sans-serif; color:#f0f0f0; -webkit-font-smoothing:antialiased; overflow:hidden; }
   .layout { display:grid; grid-template-columns:220px 1fr; width:100vw; height:100vh; }
@@ -175,7 +165,6 @@
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
-                <!-- escala 0–8: prata 0–3 (37.5%), bronze 3–5 (25%), vazio -->
                 <div class="z-prata"  style="width:37.5%"></div>
                 <div class="z-bronze" style="width:25%"></div>
                 <div class="z-empty"  style="flex:1"></div>
@@ -198,7 +187,6 @@
           <div class="zbar-wrap">
             <div class="zbar">
               <div class="zbar-inner">
-                <!-- escala 0–13: prata 0–7 (53.8%), bronze 7–10 (23%), vazio -->
                 <div class="z-prata"  style="width:53.8%"></div>
                 <div class="z-bronze" style="width:23.1%"></div>
                 <div class="z-empty"  style="flex:1"></div>
@@ -260,14 +248,14 @@
   async function fetchDados() {
     const label = document.getElementById('period-label');
     try {
+      // Dados começam na linha 2: A2:C6
       const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&range=A2:C6&headers=0`;
       const res  = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
       const rows = json.table.rows;
 
-      // A2:C6 — rows conforme planilha Bia
-      // rows[0]=A2 CSAT, rows[1]=A3 %Aval, rows[2]=A4 Monitoria, rows[3]=A5 FRT(col C), rows[4]=A6 ART(col C)
+      // rows[0]=A2 CSAT, rows[1]=A3 %Aval, rows[2]=A4 Monitoria, rows[3]=A5+C5 FRT, rows[4]=A6+C6 ART
       const csat    = toNum(rows[0]?.c[0]?.v);
       const avalRaw = rows[1]?.c[0]?.v ?? 0;
       const aval    = typeof avalRaw === 'number' && avalRaw <= 1 ? avalRaw * 100 : toNum(avalRaw);
