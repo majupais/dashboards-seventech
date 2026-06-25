@@ -70,6 +70,7 @@
 
   const dashboards = [
     { file: 'dashboard_bia.html',            label: 'Bia' },
+    { file: 'dashboard_thamara.html',        label: 'Thamara' },
     { file: 'dashboard_nicole.html',         label: 'Nicole' },
     { file: 'dashboard_beatriz_roveri.html', label: 'Beatriz Roveri' },
     { file: 'dashboard_rayanne.html',        label: 'Rayanne' },
@@ -114,7 +115,6 @@
   document.getElementById('btn-next').addEventListener('click', proxima);
   document.getElementById('btn-prev').addEventListener('click', anterior);
 
-  // Suporte a teclado (setas)
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') proxima();
     if (e.key === 'ArrowLeft')  anterior();
