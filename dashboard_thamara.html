@@ -263,9 +263,9 @@
       const frt     = toNum(rows[3]?.c[2]?.v);
       const art     = toNum(rows[4]?.c[2]?.v);
 
-      applyMetric('csat', nivelCSAT(csat), csat.toFixed(1).replace('.',','), 5, csat);
+      applyMetric('csat', nivelCSAT(csat), csat.toFixed(2).replace('.',','), 5, csat);
       applyMetric('aval', nivelAval(aval), aval.toFixed(2).replace('.',',') + '<span class="munit">%</span>', 100, aval);
-      applyMetric('mon',  nivelMon(mon),   mon.toFixed(1).replace('.',','), 5, mon);
+      applyMetric('mon',  nivelMon(mon),   mon.toFixed(2).replace('.',','), 5, mon);
       applyMetric('frt',  nivelFRT(frt),   toMinSec(frt) + '<span class="munit">min</span>', 8, frt);
       applyMetric('art',  nivelART(art),   toMinSec(art) + '<span class="munit">min</span>', 13, art);
 
